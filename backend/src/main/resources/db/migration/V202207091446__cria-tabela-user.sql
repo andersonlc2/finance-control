@@ -1,0 +1,14 @@
+CREATE TABLE user(
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	password VARCHAR(255) NOT NULL,
+	created_at DATETIME NOT NULL,
+	deleted_flg TINYINT NOT NULL DEFAULT '0',
+	deleted_at DATETIME NULL,
+	
+	PRIMARY KEY (id)
+);
+
+-- Altera o valor inicial do AUTO_INCREMENT
+ALTER TABLE user AUTO_INCREMENT = 10000;
