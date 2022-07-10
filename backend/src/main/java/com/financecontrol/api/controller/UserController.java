@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.financecontrol.api.assembler.UserMapper;
+import com.financecontrol.api.model.response.ResumeUserResponse;
 import com.financecontrol.domain.model.User;
-import com.financecontrol.domain.service.CadastroUserService;
+import com.financecontrol.domain.service.CrudUserService;
 
 import lombok.AllArgsConstructor;
 
@@ -26,44 +28,46 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/users")
 public class UserController {
 
-	private CadastroUserService cadastroUserService;
+	private CrudUserService crudUserService;
+
+	private UserMapper userMapper;
 
 	@GetMapping
-	public Page<User> list(Pageable pageable) {
-		return cadastroUserService.findAll(pageable);
+	public Page<ResumeUserResponse> list(Pageable pageable) {
+		return userMapper.toCollectionResponse(crudUserService.findAll(pageable));
 	}
 
 	@GetMapping("/{userId}")
-	public ResponseEntity<User> findOne(@PathVariable Long userId) {
-		return cadastroUserService.findOneById(userId).map(ResponseEntity::ok)
+	public ResponseEntity<ResumeUserResponse> findOne(@PathVariable Long userId) {
+		return crudUserService.findOneById(userId).map(user -> ResponseEntity.ok(userMapper.toResponse(user)))
 				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public User add(@Valid @RequestBody User user) {
-		return cadastroUserService.save(user);
+		return crudUserService.save(user);
 	}
 
 	@PutMapping("/{userId}")
 	public ResponseEntity<User> update(@PathVariable Long userId, @Valid @RequestBody User user) {
-		if (!cadastroUserService.existsById(userId)) {
+		if (!crudUserService.existsById(userId)) {
 			return ResponseEntity.notFound().build();
 		}
 
 		user.setId(userId);
-		user = cadastroUserService.save(user);
+		user = crudUserService.save(user);
 
 		return ResponseEntity.ok(user);
 	}
 
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<User> del(@PathVariable Long userId) {
-		if (!cadastroUserService.existsById(userId)) {
+		if (!crudUserService.existsById(userId)) {
 			return ResponseEntity.notFound().build();
 		}
 
-		cadastroUserService.delete(userId);
+		crudUserService.delete(userId);
 
 		return ResponseEntity.noContent().build();
 	}

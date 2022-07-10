@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
-public class CadastroUserService {
+public class CrudUserService {
 
 	private UserRepository userRepository;
 
