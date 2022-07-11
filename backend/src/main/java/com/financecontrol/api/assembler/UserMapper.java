@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.financecontrol.api.model.request.UserRequest;
 import com.financecontrol.api.model.response.ResumeUserResponse;
 import com.financecontrol.domain.model.User;
 
@@ -20,7 +21,11 @@ public class UserMapper {
 	}
 
 	public Page<ResumeUserResponse> toCollectionResponse(Page<User> page) {
-		return page.map(user -> modelMapper.map(user, ResumeUserResponse.class));
+		return page.map(user -> toResponse(user));
+	}
+
+	public User toEntity(UserRequest userRequest) {
+		return modelMapper.map(userRequest, User.class);
 	}
 
 }

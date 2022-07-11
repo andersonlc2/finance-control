@@ -1,6 +1,5 @@
 package com.financecontrol.domain.service;
 
-import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -26,15 +25,15 @@ public class CrudUserService {
 			throw new DomainException("Já existe um cadastro com esse e-mail.");
 		}
 
-		user.setCreatedAt(OffsetDateTime.now());
-		user.setDeletedFlg(0);
-
 		return userRepository.save(user);
 	}
 
 	@Transactional
 	public void delete(Long userId) {
-		userRepository.deleteById(userId);
+		User user = userRepository.findById(userId).get();
+		user.deleteUser();
+
+		userRepository.save(user);
 	}
 
 	public Optional<User> findOneById(Long userId) {

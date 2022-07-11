@@ -1,5 +1,7 @@
 package com.financecontrol.api.controller;
 
+import java.time.OffsetDateTime;
+
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.financecontrol.api.assembler.UserMapper;
+import com.financecontrol.api.model.request.UserRequest;
 import com.financecontrol.api.model.response.ResumeUserResponse;
 import com.financecontrol.domain.model.User;
 import com.financecontrol.domain.service.CrudUserService;
@@ -45,20 +48,23 @@ public class UserController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public User add(@Valid @RequestBody User user) {
+	public User add(@Valid @RequestBody UserRequest userRequest) {
+		User user = userMapper.toEntity(userRequest);
+		user.setCreatedAt(OffsetDateTime.now());
+
 		return crudUserService.save(user);
 	}
 
 	@PutMapping("/{userId}")
-	public ResponseEntity<User> update(@PathVariable Long userId, @Valid @RequestBody User user) {
+	public ResponseEntity<User> update(@PathVariable Long userId, @Valid @RequestBody UserRequest userRequest) {
 		if (!crudUserService.existsById(userId)) {
 			return ResponseEntity.notFound().build();
 		}
 
+		User user = userMapper.toEntity(userRequest);
 		user.setId(userId);
-		user = crudUserService.save(user);
 
-		return ResponseEntity.ok(user);
+		return ResponseEntity.ok(crudUserService.save(user));
 	}
 
 	@DeleteMapping("/{userId}")
@@ -71,4 +77,5 @@ public class UserController {
 
 		return ResponseEntity.noContent().build();
 	}
+
 }
