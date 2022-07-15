@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,9 @@ import com.financecontrol.api.assembler.AccountMapper;
 import com.financecontrol.api.model.request.AccountRequest;
 import com.financecontrol.api.model.response.AccountResponse;
 import com.financecontrol.domain.model.Account;
+import com.financecontrol.domain.model.Transaction;
 import com.financecontrol.domain.model.User;
+import com.financecontrol.domain.service.DelAllTransactionsService;
 import com.financecontrol.domain.service.SearchUserService;
 import com.financecontrol.domain.service.StartAccountService;
 
@@ -34,6 +37,8 @@ public class AccountController {
 
 	private AccountMapper accountMapper;
 
+	private DelAllTransactionsService dellAllTransactionsService;
+
 	@GetMapping
 	public List<AccountResponse> list(@PathVariable Long userId) {
 		User user = searchUserService.search(userId);
@@ -47,5 +52,12 @@ public class AccountController {
 		Account account = startAccountService.startAccount(userId, accountMapper.toEntity(accountRequest));
 
 		return accountMapper.toResponse(account);
+	}
+
+	@GetMapping("/{accountId}/delete-all")
+	public ResponseEntity<Transaction> delAll(@PathVariable Long accountId) {
+		dellAllTransactionsService.delAllTransactions(accountId);
+
+		return ResponseEntity.noContent().build();
 	}
 }
