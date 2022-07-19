@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,8 @@ public class CrudUserService {
 		if (usedEmail(user)) {
 			throw new DomainException("Já existe um cadastro com esse e-mail.");
 		}
+
+		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 
 		return userRepository.save(user);
 	}
