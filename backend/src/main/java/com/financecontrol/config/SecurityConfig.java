@@ -20,6 +20,7 @@ public class SecurityConfig {
 		.and()
 		.authorizeHttpRequests()
 		
+		.antMatchers("/login").permitAll()
 		.antMatchers(HttpMethod.GET, "/users/**").hasAnyRole("ADMIN", "USER")
 		
 		.anyRequest().authenticated()
