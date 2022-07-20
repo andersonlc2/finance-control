@@ -2,10 +2,12 @@ package com.financecontrol.domain.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.financecontrol.domain.exception.DomainException;
+import com.financecontrol.domain.exception.NotAuthorizationException;
 import com.financecontrol.domain.model.Account;
 import com.financecontrol.domain.model.Status;
 import com.financecontrol.domain.model.Transaction;
@@ -20,6 +22,8 @@ public class CrudTransactionService {
 	private TransactionRepository transactionRepository;
 
 	private SearchAccountService searchAccountService;
+
+	private UserLoggedService userLoggedService;
 
 	@Transactional
 	public Transaction add(Long accountId, Transaction transaction) {
@@ -43,10 +47,14 @@ public class CrudTransactionService {
 		transactionRepository.deleteById(transactionId);
 	}
 
-	public Page<Transaction> find(Pageable pageable, Long accountId) {
+	public Page<Transaction> find(Pageable pageable, Long accountId, UserDetails userLogged) {
 		Account account = searchAccountService.search(accountId);
 
-		return transactionRepository.findByAccount(pageable, account);
+		if (userLoggedService.authUser(userLogged, account.getUser().getId())) {
+			return transactionRepository.findByAccount(pageable, account);
+		} else {
+			throw new NotAuthorizationException("Não autorizado.");
+		}
 	}
 
 	public Transaction findById(Long transactionId) {

@@ -17,6 +17,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.financecontrol.domain.exception.DomainException;
+import com.financecontrol.domain.exception.NotAuthorizationException;
 
 import lombok.AllArgsConstructor;
 
@@ -54,4 +55,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 	}
+	
+	@ExceptionHandler(NotAuthorizationException.class)
+	public ResponseEntity<Object> handleDomain(NotAuthorizationException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.FORBIDDEN;
+
+		Error error = new Error();
+		error.setStatus(status.value());
+		error.setDateTime(OffsetDateTime.now());
+		error.setTitle(ex.getMessage());
+
+		return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+	}
 }
+
+

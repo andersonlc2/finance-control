@@ -4,11 +4,13 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.financecontrol.domain.exception.DomainException;
+import com.financecontrol.domain.exception.NotAuthorizationException;
 import com.financecontrol.domain.model.User;
 import com.financecontrol.domain.repository.UserRepository;
 
@@ -19,6 +21,8 @@ import lombok.AllArgsConstructor;
 public class CrudUserService {
 
 	private UserRepository userRepository;
+
+	private UserLoggedService userLoggedService;
 
 	@Transactional
 	public User save(User user) {
@@ -39,8 +43,12 @@ public class CrudUserService {
 		userRepository.save(user);
 	}
 
-	public Optional<User> findOneById(Long userId) {
-		return userRepository.findById(userId);
+	public Optional<User> findOneById(UserDetails userLogged, Long userId) {
+		if (userLoggedService.authUser(userLogged, userId)) {
+			return userRepository.findById(userId);
+		} else {
+			throw new NotAuthorizationException("Não autorizado.");
+		}
 	}
 
 	public Page<User> findAll(Pageable pageable) {
