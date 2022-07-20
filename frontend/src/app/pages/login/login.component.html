@@ -1,9 +1,18 @@
-<div>
+<div class="login-background">
 
-  <div>
-  </div>
+  <div class="login-area">
+    <form>
+      <div>
+        <label for="email">Email</label>
+        <input class="input-login" type="email" [(ngModel)]="email" name="email" id="email" placeholder="" required>
+      </div>
+      <div>
+        <label for="pass">Senha</label>
+        <input class="input-login" type="password" [(ngModel)]="password" name="pass" id="pass" placeholder="" required>
+      </div>
 
-  <div>
+      <input class="btn info" type="submit" value="Login">
+    </form>
   </div>
 
 </div>
