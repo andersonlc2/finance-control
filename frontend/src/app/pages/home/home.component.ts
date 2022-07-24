@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  account = {
+    "id": '',
+    "accountType": '',
+    "balance": 0.0,
+    "limit": 0.0
+  }
 
   constructor() { }
 

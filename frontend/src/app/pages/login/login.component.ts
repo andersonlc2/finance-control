@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AccountService } from 'src/app/core/service/account/shared/account.service';
 
 @Component({
   selector: 'app-login',
@@ -6,12 +9,30 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  email!: string;
-  password!: string;
+  login = {
+    email: '',
+    password: ''
+  }
+  token: string = '';
 
-  constructor() { }
+
+  constructor(
+    private accountService: AccountService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  async onSubmit() {
+    try {
+      const result = await this.accountService.login(this.login);
+
+      this.router.navigate(['']);
+    } catch (error) {
+      console.error(error);
+    }
+
   }
 
 }

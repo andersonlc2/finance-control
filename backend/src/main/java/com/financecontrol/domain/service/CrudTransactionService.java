@@ -2,10 +2,12 @@ package com.financecontrol.domain.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.financecontrol.config.security.JWTAuthFilter;
 import com.financecontrol.domain.exception.DomainException;
 import com.financecontrol.domain.exception.NotAuthorizationException;
 import com.financecontrol.domain.model.Account;
@@ -47,10 +49,12 @@ public class CrudTransactionService {
 		transactionRepository.deleteById(transactionId);
 	}
 
-	public Page<Transaction> find(Pageable pageable, Long accountId, UserDetails userLogged) {
+	public Page<Transaction> find(Pageable pageable, Long accountId, String token) {
 		Account account = searchAccountService.search(accountId);
 
-		if (userLoggedService.authUser(userLogged, account.getUser().getId())) {
+		String user = JWT.require(Algorithm.HMAC512(JWTAuthFilter.KEY)).build().verify(token).getSubject();
+
+		if (userLoggedService.authUser(user, account.getUser().getId())) {
 			return transactionRepository.findByAccount(pageable, account);
 		} else {
 			throw new NotAuthorizationException("Não autorizado.");

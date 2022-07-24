@@ -1,6 +1,7 @@
 package com.financecontrol.api.assembler;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -28,4 +29,16 @@ public class UserMapper {
 		return modelMapper.map(userRequest, User.class);
 	}
 
+	public User toPrincipalUser(org.springframework.security.core.userdetails.User principal) {
+
+		PropertyMap<org.springframework.security.core.userdetails.User, User> personMap = new PropertyMap<org.springframework.security.core.userdetails.User, User>() {
+			  protected void configure() {
+			    map().setEmail(source.getUsername());
+			  }
+			};
+
+			modelMapper.addMappings(personMap);
+		
+		return modelMapper.map(principal, User.class);
+	}
 }
