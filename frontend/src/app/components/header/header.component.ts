@@ -7,10 +7,12 @@ import { AccountService } from 'src/app/core/service/account/shared/account.serv
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  name: string = 'Usuário';
 
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
+    this.name = this.accountService.getUserName();
   }
 
   onClick() {

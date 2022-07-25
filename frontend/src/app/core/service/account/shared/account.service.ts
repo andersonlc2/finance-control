@@ -72,6 +72,13 @@ export class AccountService {
 
     return true;
   }
+
+  getUserName(): string {
+    const token = this.getAuthorizationToken();
+    const decoded: any = jwt_decode(token!);
+
+    return decoded.name;
+  }
 }
 
 

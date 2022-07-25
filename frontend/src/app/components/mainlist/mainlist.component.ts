@@ -10,7 +10,7 @@ import { UserAccountService } from 'src/app/core/service/useAccount/shared/user-
 })
 export class MainlistComponent implements OnInit {
 
-  private transactions?: Account[];
+  accounts: Account[] = [];
 
   constructor(
     private userAccountService: UserAccountService
@@ -19,14 +19,22 @@ export class MainlistComponent implements OnInit {
   ngOnInit(): void {
     let id = this.userAccountService.getId();
     this.userAccountService.getAllTransactions(id).subscribe(x => {
-      this.transactions = x;
-      console.log(this.transactions);
+      this.accounts = x;
+      console.log(this.accounts);
 
     });
   }
 
   onClick() {
 
+  }
+
+  getBalancePositive(balance: number): string {
+    if (balance < 0) {
+      return "negative";
+    }
+
+    return "positive";
   }
 
 }
