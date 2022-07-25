@@ -18,11 +18,11 @@ html {
 
 a {
   text-decoration: none;
-  color: #444;
+  color: #fff;
   transition: 0.4s;
 
   &:hover {
-    color: #dec;
+    color: #ee6;
   }
 }
 
@@ -31,4 +31,27 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.btn {
+  margin-top: 25px;
+  border-radius: 5px;
+  border: 2px solid black;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.info {
+  border: solid 1px #aff;
+  background: #161a2e;
+  color: #fff;
+}
+
+.info:hover {
+  background-color: #1e2840;
+  color: #fff;
+}
+
+.info:active {
+  background-color: #1e3050;
 }

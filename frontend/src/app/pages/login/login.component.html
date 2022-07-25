@@ -1,17 +1,25 @@
 <div class="login-background">
   <div class="login-area">
+
     <form (ngSubmit)="onSubmit()" #form="ngForm">
-      <div>
-        <label for="email">Email</label>
-        <input class="input-login" type="email" [(ngModel)]="login.email" name="email" id="email" placeholder=""
+      <div class="form-outline">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" type="email" [(ngModel)]="login.email" name="email" id="email" placeholder=""
           required>
       </div>
       <div>
-        <label for="pass">Senha</label>
-        <input class="input-login" type="password" [(ngModel)]="login.password" name="pass" id="pass" placeholder=""
+        <label class="form-label" for="pass">Senha</label>
+        <input class="form-control" type="password" [(ngModel)]="login.password" name="pass" id="pass" placeholder=""
           required>
       </div>
+
+      <div class="text-start">
+        <a href="#!">Recuperar a senha?</a>
+      </div>
+
       <input class="btn info" type="submit" value="Login">
+      <p class="mt-4">Ainda não é membro? <a href="#!">Registre-se</a></p>
     </form>
+
   </div>
 </div>

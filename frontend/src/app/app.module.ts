@@ -8,6 +8,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthenticationComponent } from './core/authentication/authentication.component';
+import { HeaderComponent } from './components/header/header.component';
+
+import { httpInterceptorProviders } from './http-interceptors';
+import { MainlistComponent } from './components/mainlist/mainlist.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +19,8 @@ import { AuthenticationComponent } from './core/authentication/authentication.co
     LoginComponent,
     HomeComponent,
     AuthenticationComponent,
+    HeaderComponent,
+    MainlistComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +28,9 @@ import { AuthenticationComponent } from './core/authentication/authentication.co
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

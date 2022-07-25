@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.financecontrol.api.assembler.UserMapper;
 import com.financecontrol.domain.model.User;
+import com.financecontrol.domain.service.CrudUserService;
 
 import lombok.AllArgsConstructor;
 
@@ -32,7 +33,9 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
 	public static final String KEY = "6f693008-afeb-49a2-be35-a76a5f451d7e";
 
 	private AuthenticationManager authenticationManager;
-
+	
+	private CrudUserService crudUserService;
+	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
@@ -51,11 +54,16 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
 			Authentication authResult) throws IOException, ServletException {
 
 		UserMapper userMapper = new UserMapper(new ModelMapper());
-
+				
 		User user = userMapper
 				.toPrincipalUser((org.springframework.security.core.userdetails.User) authResult.getPrincipal());
 
-		String token = JWT.create().withSubject(user.getEmail())
+		User userTmp = crudUserService.findByEmail(user.getEmail());
+		
+		String token = JWT.create()
+				.withSubject(user.getEmail())
+				.withClaim("id", userTmp.getId())
+				.withIssuedAt(new Date())
 				.withExpiresAt(new Date(System.currentTimeMillis() + JWT_EXP)).sign(Algorithm.HMAC512(KEY));
 		
 		response.getWriter().write(token);

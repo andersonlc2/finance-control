@@ -46,9 +46,8 @@ public class UserController {
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<ResumeUserResponse> findOne(
-			@AuthenticationPrincipal UserDetails userLogged,
 			@PathVariable Long userId) {
-			return crudUserService.findOneById(userLogged, userId).map(user -> ResponseEntity.ok(userMapper.toResponse(user)))
+			return crudUserService.findOneById(userId).map(user -> ResponseEntity.ok(userMapper.toResponse(user)))
 				.orElse(ResponseEntity.notFound().build());
 	}
 

@@ -16,6 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.financecontrol.domain.service.CrudUserService;
 import com.financecontrol.domain.service.UserDetailsServiceImpl;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private PasswordEncoder passwordEncoder;
 	
+	private CrudUserService crudUserService;
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder);
@@ -41,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/login").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilter(new JWTAuthFilter(authenticationManager()))
+			.addFilter(new JWTAuthFilter(authenticationManager(), crudUserService))
 			.addFilter(new JWTValidFilter(authenticationManager()))
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
