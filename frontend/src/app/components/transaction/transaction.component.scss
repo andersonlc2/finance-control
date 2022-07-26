@@ -1,0 +1,36 @@
+.area-table {
+  border-radius: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 2px solid black;
+  cursor: pointer;
+}
+
+.info {
+  border: solid 1px #aff;
+  background: #161a2e;
+  color: #fff;
+}
+
+.bg-blue {
+  background-color: #161a2e;
+  color: #fff;
+}
+
+th {
+  font-weight: bold;
+}
+
+tbody td,
+th {
+  color: #fff !important;
+}
+
+tr:hover {
+  background-color: #1e2840;
+  color: #fff;
+}
+
+tr:active {
+  background-color: #1e3050;
+}

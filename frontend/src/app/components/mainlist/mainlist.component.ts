@@ -11,6 +11,7 @@ import { UserAccountService } from 'src/app/core/service/useAccount/shared/user-
 export class MainlistComponent implements OnInit {
 
   accounts: Account[] = [];
+  hiddenExtract: Boolean = true;
 
   constructor(
     private userAccountService: UserAccountService
@@ -18,23 +19,16 @@ export class MainlistComponent implements OnInit {
 
   ngOnInit(): void {
     let id = this.userAccountService.getId();
-    this.userAccountService.getAllTransactions(id).subscribe(x => {
-      this.accounts = x;
-      console.log(this.accounts);
+    this.userAccountService.getAllTransactions(id).subscribe(account => {
+      this.accounts = account;
 
     });
   }
 
   onClick() {
+    this.hiddenExtract = !this.hiddenExtract;
 
-  }
 
-  getBalancePositive(balance: number): string {
-    if (balance < 0) {
-      return "negative";
-    }
-
-    return "positive";
   }
 
 }

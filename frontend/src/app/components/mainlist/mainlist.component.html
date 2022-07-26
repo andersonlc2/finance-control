@@ -1,20 +1,37 @@
-<section>
-  <div *ngIf="accounts.length == 0">
-    Nenhuma conta criada!
+<section class="area">
+  <div class="menu-bar">
+    <ul>
+      <li>
+        <button class="btn info list">Suas contas</button>
+        <div class="accounts">
+          <div *ngIf="accounts.length == 0">
+            <h3>Nenhuma conta criada!</h3>
+          </div>
+
+          <ul *ngIf="accounts.length > 0">
+            <li *ngFor="let account of accounts">
+              <button class="btn info card" type="submit" (click)="onClick()">
+                <div class="card-body">
+                  <p>Conta: {{ account.accountType }}</p>
+                  <div>
+                    <p *ngIf="account.balance! < 0">Saldo: <span class="negative"> {{ account.balance }}</span>
+                    </p>
+                    <p *ngIf="account.balance! >= 0">Saldo: <span class="positive"> {{ account.balance }}</span>
+                    </p>
+                  </div>
+                </div>
+              </button>
+
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+
   </div>
 
-  <ul *ngIf="accounts.length > 0">
-    <li *ngFor="let account of accounts">
-      <button class="btn info card" type="submit" (click)="onClick()">
-        <div class="card-body">
-          <h5>Conta: {{ account.accountType }}</h5>
-          <hr>
-          <div>
-            <p *ngIf="account.balance! < 0">Saldo: <span class="negative">R$ {{ account.balance }}</span></p>
-            <p *ngIf="account.balance! >= 0">Saldo: <span class="positive">R$ {{ account.balance }}</span></p>
-          </div>
-        </div>
-      </button>
-    </li>
-  </ul>
+
+  <div class="area-transaction">
+    <app-transaction [hidden]="hiddenExtract"></app-transaction>
+  </div>
 </section>

@@ -12,6 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 
 import { httpInterceptorProviders } from './http-interceptors';
 import { MainlistComponent } from './components/mainlist/mainlist.component';
+import { TransactionComponent } from './components/transaction/transaction.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MainlistComponent } from './components/mainlist/mainlist.component';
     AuthenticationComponent,
     HeaderComponent,
     MainlistComponent,
+    TransactionComponent,
   ],
   imports: [
     BrowserModule,
