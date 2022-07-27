@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 public class TransactionMapper {
 
 	private ModelMapper modelMapper;
+	
 
 	public SaveTransactionResponse toResponse(Transaction transaction) {
 		return modelMapper.map(transaction, SaveTransactionResponse.class);
@@ -25,6 +26,9 @@ public class TransactionMapper {
 	}
 
 	public Transaction toEntity(TransactionRequest transactionRequest) {
+		
+		
+		
 		return modelMapper.map(transactionRequest, Transaction.class);
 	}
 

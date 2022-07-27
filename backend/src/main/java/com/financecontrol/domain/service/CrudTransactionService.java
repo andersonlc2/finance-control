@@ -13,7 +13,9 @@ import com.financecontrol.domain.exception.NotAuthorizationException;
 import com.financecontrol.domain.model.Account;
 import com.financecontrol.domain.model.Status;
 import com.financecontrol.domain.model.Transaction;
+import com.financecontrol.domain.model.Type;
 import com.financecontrol.domain.repository.TransactionRepository;
+import com.financecontrol.domain.repository.TypeRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -26,6 +28,8 @@ public class CrudTransactionService {
 	private SearchAccountService searchAccountService;
 
 	private UserLoggedService userLoggedService;
+	
+	private TypeRepository typeRepository;
 
 	@Transactional
 	public Transaction add(Long accountId, Transaction transaction) {
@@ -33,6 +37,9 @@ public class CrudTransactionService {
 		Account account = searchAccountService.search(accountId);
 		account.modifyBalanceAdd(transaction.getValue(), transaction.getDebitOrCredit());
 
+		Type type = typeRepository.findById(transaction.getType().getId()).get();
+		
+		transaction.setType(type);
 		transaction.setStatus(Status.PENDENTE);
 		transaction.setAccount(account);
 

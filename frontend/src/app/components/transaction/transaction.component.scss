@@ -34,3 +34,13 @@ tr:hover {
 tr:active {
   background-color: #1e3050;
 }
+
+.select-month {
+  width: 300px;
+}
+
+.select-month-balance {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0 15px 0;
+}

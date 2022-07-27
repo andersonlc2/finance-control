@@ -1,14 +1,14 @@
 package com.financecontrol.domain.model;
 
-import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,32 +21,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "transaction")
-public class Transaction {
+@Table(name = "type")
+public class Type {
 
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String description;
-
-	private String debitOrCredit;
-
-	private OffsetDateTime dueDate;
-
-	private Double value;
-
-	private OffsetDateTime payDay;
-
-	@Enumerated(EnumType.STRING)
-	private Status status;
+	private String name;
 
 	@JsonIgnore
-	@ManyToOne
-	private Account account;
-
-	@ManyToOne
-	private Type type;
-
+	@OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+	private Set<Transaction> transactions = new HashSet<>();
 }

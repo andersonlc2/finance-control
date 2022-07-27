@@ -12,7 +12,7 @@
             <li *ngFor="let account of accounts">
               <button class="btn info card" type="submit" (click)="onClick()">
                 <div class="card-body">
-                  <p>Conta: {{ account.accountType }}</p>
+                  <p>{{ account.accountType }}</p>
                   <div>
                     <p *ngIf="account.balance! < 0">Saldo: <span class="negative"> {{ account.balance }}</span>
                     </p>
