@@ -1,5 +1,5 @@
 export class Account {
-  _id?: string;
+  id?: string;
   accountType?: string;
   balance?: number;
   limit?: number

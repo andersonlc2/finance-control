@@ -1,14 +1,13 @@
 <div class="select-month-balance">
   <div class="select-month">
-    <select class="form-select" aria-label="Default select example">
-      <option>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option selected="true" value="3">Three</option>
+    <select class="form-select month" aria-label="Default select example">
+      <option *ngFor="let month of months" [value]="month.id" [selected]="isActualMonth(month.id)">
+        {{ month.name }}
+      </option>
     </select>
   </div>
 
-  <div>
+  <div class="balance">
     <p *ngIf="100 < 0">Saldo: <span class="negative">R$ 100</span>
     </p>
     <p *ngIf="100 >= 0">Saldo: <span class="positive">R$ 100</span>

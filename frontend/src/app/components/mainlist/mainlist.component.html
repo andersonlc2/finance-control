@@ -10,7 +10,8 @@
 
           <ul *ngIf="accounts.length > 0">
             <li *ngFor="let account of accounts">
-              <button class="btn info card" type="submit" (click)="onClick()">
+              <!-- <button class="btn info card" type="submit" (click)="onClick()"> -->
+              <button class="btn info card" type="submit" routerLink="/transaction/{{ account.id }}">
                 <div class="card-body">
                   <p>{{ account.accountType }}</p>
                   <div>
@@ -32,6 +33,7 @@
 
 
   <div class="area-transaction">
-    <app-transaction [hidden]="hiddenExtract"></app-transaction>
+    <router-outlet></router-outlet>
+    <!-- <app-transaction [hidden]="hiddenExtract"></app-transaction> -->
   </div>
 </section>

@@ -1,5 +1,5 @@
 export class Transaction {
-  _id?: string;
+  id?: string;
   description?: string;
   debitOrCredit?: string;
   dueDate?: Date;
