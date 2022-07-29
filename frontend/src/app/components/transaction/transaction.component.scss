@@ -36,6 +36,7 @@ tr:active {
 }
 
 .select-month {
+  display: flex;
   width: 300px;
 }
 
@@ -48,7 +49,24 @@ tr:active {
     width: 100px;
   }
 
+  .year {
+    width: 70px;
+  }
+
   .balance {
     min-width: 75px;
+  }
+}
+
+.right-align {
+  text-align: end;
+}
+
+.area-select {
+  display: flex;
+  margin: 8px;
+
+  label {
+    text-align: center;
   }
 }

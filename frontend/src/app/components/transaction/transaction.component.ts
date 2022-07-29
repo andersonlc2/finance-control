@@ -15,6 +15,7 @@ export class TransactionComponent implements OnInit {
   transactions: Transaction[] = [];
 
   months: Array<MonthOfYear> = [];
+  years: Array<number> = [];
 
   constructor(
     private transactionService: TransactionService,
@@ -25,6 +26,7 @@ export class TransactionComponent implements OnInit {
   ngOnInit(): void {
     this.listTransactions();
     this.months = months;
+    this.years = this.getYears();
   }
 
   isActualMonth(month: number): boolean {
@@ -33,12 +35,32 @@ export class TransactionComponent implements OnInit {
     return actualDate.getMonth() == month;
   }
 
+  getYears(): number[] {
+    let actualYear: number = new Date().getFullYear();
+    let listYears: number[] = [];
+
+    let cont: number = 0;
+    for (let index = 4; index >= 0; index--) {
+
+      listYears[cont] = actualYear - index;
+
+      if (index === 0) {
+        listYears[cont] = actualYear;
+      }
+      cont++;
+    }
+
+    return listYears;
+  }
+
+  getDateString(date: string): string {
+    return new Date(date!).toLocaleDateString()
+  }
+
   listTransactions() {
     const transactionId = Number(this.route.snapshot.paramMap.get("id"));
     this.transactionService.getAllTransactions(transactionId).subscribe(transactions => {
-      this.transactions = transactions;
-
-      console.log(this.transactions);
+      this.transactions = transactions.content;
     });
   }
 

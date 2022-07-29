@@ -10,7 +10,6 @@
 
           <ul *ngIf="accounts.length > 0">
             <li *ngFor="let account of accounts">
-              <!-- <button class="btn info card" type="submit" (click)="onClick()"> -->
               <button class="btn info card" type="submit" routerLink="/transaction/{{ account.id }}">
                 <div class="card-body">
                   <p>{{ account.accountType }}</p>

@@ -1,10 +1,21 @@
 <div class="select-month-balance">
   <div class="select-month">
-    <select class="form-select month" aria-label="Default select example">
-      <option *ngFor="let month of months" [value]="month.id" [selected]="isActualMonth(month.id)">
-        {{ month.name }}
-      </option>
-    </select>
+    <div class="area-select">
+      <!-- <label for="select-month">Mês:</label> -->
+      <select class="form-select month" aria-label="Default select example">
+        <option *ngFor="let month of months" [value]="month.id" [selected]="isActualMonth(month.id)">
+          {{ month.name }}
+        </option>
+      </select>
+    </div>
+    <div class="area-select">
+      <!-- <label for="select-month">Ano:</label> -->
+      <select class="form-select year" aria-label="Default select example">
+        <option *ngFor="let year of years" [value]="year" [selected]="years[4]">
+          {{ year }}
+        </option>
+      </select>
+    </div>
   </div>
 
   <div class="balance">
@@ -13,7 +24,6 @@
     <p *ngIf="100 >= 0">Saldo: <span class="positive">R$ 100</span>
     </p>
   </div>
-
 </div>
 
 <div class="area-table info">
@@ -22,17 +32,22 @@
     <thead>
       <tr>
         <th scope="col">Data</th>
+        <th scope="col">Tipo transação</th>
         <th scope="col">Descrição</th>
-        <th scope="col">Valor</th>
-        <th scope="col">Tipo</th>
+        <th scope="col" class="right-align">Valor</th>
+        <th scope="col" class="right-align"></th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th>1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+      <tr *ngFor="let transaction of transactions">
+        <th>{{ getDateString(transaction.dueDate!) }}</th>
+        <th>{{ transaction.type?.name }}</th>
+        <td>{{ transaction.description}}</td>
+        <td class="right-align">{{ transaction.value?.toFixed(2) }}</td>
+        <th *ngIf="transaction.debitOrCredit === 'D'" class="right-align"><span class="negative">{{
+            transaction.debitOrCredit }}</span></th>
+        <th *ngIf="transaction.debitOrCredit === 'C'" class="right-align"><span class="positive">{{
+            transaction.debitOrCredit }}</span></th>
       </tr>
     </tbody>
   </table>
