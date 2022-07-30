@@ -1,5 +1,5 @@
 ALTER TABLE transaction
-	ADD COLUMN type_id BIGINT;
+	ADD COLUMN type_id BIGINT NOT NULL;
 
 
 ALTER TABLE transaction
