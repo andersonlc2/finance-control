@@ -5,13 +5,15 @@ import { AuthenticationComponent } from './core/authentication/authentication.co
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { TransactionComponent } from './components/transaction/transaction.component';
+import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     children: [
-      { path: 'transaction/:id', component: TransactionComponent }
+      { path: 'transaction/:id', component: TransactionComponent },
+      { path: 'transaction/:id/add', component: AddTransactionComponent }
     ],
     canActivate: [AuthGuard]
   },

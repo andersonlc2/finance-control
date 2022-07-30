@@ -14,6 +14,7 @@ import { MonthOfYear, months } from 'src/utils/months';
 export class TransactionComponent implements OnInit {
 
   transactions: Transaction[] = [];
+  accountId!: number;
 
   months: Array<MonthOfYear> = [];
   years: Array<number> = [];
@@ -22,7 +23,7 @@ export class TransactionComponent implements OnInit {
     "actualYear": new Date().getFullYear()
   }
   balanceOfMonth: number = 0;
-  balances?: Balances;
+  balances!: Balances;
 
   constructor(
     private transactionService: TransactionService,
@@ -30,6 +31,7 @@ export class TransactionComponent implements OnInit {
     private routeLink: Router,
     private accountService: AccountService
   ) {
+    this.accountId = Number(this.route.snapshot.paramMap.get("id"));
   }
 
   ngOnInit(): void {
@@ -85,10 +87,8 @@ export class TransactionComponent implements OnInit {
   listTransactions(month: number, year: number) {
     if (this.accountService.isUserLoggedIn()) {
       try {
-        const transactionId = Number(this.route.snapshot.paramMap.get("id"));
-
         this.transactionService.getAllTransactions(
-          transactionId, year, month).subscribe(transactions => {
+          this.accountId, year, month).subscribe(transactions => {
             this.transactions = transactions.content;
 
             this.setBalanceOfMonth();
@@ -113,9 +113,8 @@ export class TransactionComponent implements OnInit {
   getBalances(month: number, year: number) {
     if (this.accountService.isUserLoggedIn()) {
       try {
-        const transactionId = Number(this.route.snapshot.paramMap.get("id"));
         this.transactionService.getBalances(
-          transactionId, year, month).subscribe(balances => {
+          this.accountId, year, month).subscribe(balances => {
 
             this.balances = balances;
           });

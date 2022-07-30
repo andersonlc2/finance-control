@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<div class="area-table info">
+<div class="area-table table-info">
 
   <table class="table table-striped bg-blue">
     <thead>
@@ -58,10 +58,15 @@
         <th *ngIf="transaction.debitOrCredit === 'C'" class="right-align"><span class="positive">{{
             transaction.debitOrCredit }}</span></th>
 
-
-        <th class="right-align">{{ balances!.balanceAfterTransaction[0].toFixed(2) }}</th>
+        <th class="right-align">{{ transaction.afterBalance?.toFixed(2) }}</th>
       </tr>
       <tr *ngIf="transactions.length == 0">Nenhuma transação</tr>
     </tbody>
   </table>
 </div>
+<button class="btn info" type="submit" routerLink="/transaction/{{ accountId }}/add">
+  <div>
+    <img src="../../../assets/svg/plus.svg" alt="" width="30" height="24">
+    Adicionar transação
+  </div>
+</button>

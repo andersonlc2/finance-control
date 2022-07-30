@@ -109,9 +109,21 @@ public class TransactionController {
 			@RequestParam Integer month,
 			@RequestParam Integer year,
 			@RequestHeader Map<String, String> headers) {
-		var pages = agroupTransactionService.findByDate(pageable, accountId, month, year, getToken.get(headers)); 
+		var page = agroupTransactionService.findByDate(pageable, accountId, month, year, getToken.get(headers));
 		
-		return transactionMapper.toCollectionResponse(pages);
+		var balances = new BalanceMonthResponse();
+		balances.setBalanceAfterTransaction(balanceMonthService.getBalanceTransaction(accountId, month, year));
+
+		var pageReponse = transactionMapper.toCollectionResponse(page);
+		
+		for (TransactionResponse t : pageReponse) {
+			for (Double balance : balances.getBalanceAfterTransaction()) {
+				t.setAfterBalance(balance);
+				break;
+			}
+		}
+		
+		return pageReponse;
 	}
 
 	@GetMapping("/balanceMonth")

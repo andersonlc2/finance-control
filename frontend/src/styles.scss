@@ -45,15 +45,15 @@ form {
   border: solid 1px #aff;
   background: #161a2e;
   color: #fff;
-}
 
-.info:hover {
-  background-color: #1e2840;
-  color: #fff;
-}
+  &:hover {
+    background-color: #1e2840;
+    color: #fff;
+  }
 
-.info:active {
-  background-color: #1e3050;
+  &:active {
+    background-color: #1e3050;
+  }
 }
 
 li {

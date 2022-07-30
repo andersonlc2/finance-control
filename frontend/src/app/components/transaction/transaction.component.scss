@@ -6,7 +6,7 @@
   cursor: pointer;
 }
 
-.info {
+.table-info {
   border: solid 1px #aff;
   background: #161a2e;
   color: #fff;
@@ -68,5 +68,22 @@ tr:active {
 
   label {
     text-align: center;
+  }
+}
+
+.info {
+  border-radius: 25px;
+  border: solid 1px #aff;
+  background: #161a2e;
+  color: #fff;
+  padding: 5px;
+
+  &:hover {
+    background-color: #1e2840;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: #1e3050;
   }
 }
