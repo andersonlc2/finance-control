@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SaveTransactionResponse {
+public class TransactionResponse {
 
 	private Long id;
 	private String description;
@@ -19,4 +19,5 @@ public class SaveTransactionResponse {
 	private Double value;
 	private Status status;
 	private Type type;
+	private Double afterBalance;
 }

@@ -52,6 +52,8 @@ public class Transaction {
 	private Integer month;
 	
 	private Integer year;
+	
+	private Double afterBalance;
 
 	
 	public void setMonthDate() {
