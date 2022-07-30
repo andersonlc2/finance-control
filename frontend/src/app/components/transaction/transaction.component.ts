@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Transaction } from 'src/app/core/models/Transaction';
+import { AccountService } from 'src/app/core/service/account/shared/account.service';
 import { TransactionService } from 'src/app/core/service/transaction/shared/transaction.service';
 import { MonthOfYear, months } from 'src/utils/months';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.scss']
+  styleUrls: ['./transaction.component.scss'],
 })
 export class TransactionComponent implements OnInit {
 
@@ -16,15 +16,21 @@ export class TransactionComponent implements OnInit {
 
   months: Array<MonthOfYear> = [];
   years: Array<number> = [];
+  params = {
+    "actualMonth": new Date().getMonth(),
+    "actualYear": new Date().getFullYear()
 
+  }
   constructor(
     private transactionService: TransactionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private routeLink: Router,
+    private accountService: AccountService
   ) {
   }
 
   ngOnInit(): void {
-    this.listTransactions();
+    this.listTransactions(this.params.actualMonth, this.params.actualYear);
     this.months = months;
     this.years = this.getYears();
   }
@@ -57,11 +63,34 @@ export class TransactionComponent implements OnInit {
     return new Date(date!).toLocaleDateString()
   }
 
-  listTransactions() {
-    const transactionId = Number(this.route.snapshot.paramMap.get("id"));
-    this.transactionService.getAllTransactions(transactionId).subscribe(transactions => {
-      this.transactions = transactions.content;
-    });
+
+  onChangeMonth(deviceValue: string) {
+    this.listTransactions(this.params.actualMonth, this.params.actualYear);
+
+    console.log(deviceValue);
   }
 
+  onChangeYear(deviceValue: string) {
+    this.listTransactions(this.params.actualMonth, this.params.actualYear);
+
+    console.log(deviceValue);
+  }
+
+  listTransactions(month: number, year: number) {
+    if (this.accountService.isUserLoggedIn()) {
+      try {
+        const transactionId = Number(this.route.snapshot.paramMap.get("id"));
+
+        this.transactionService.getAllTransactions(
+          transactionId, year, month).subscribe(transactions => {
+            this.transactions = transactions.content;
+          });
+
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      this.routeLink.navigate(['login']);
+    }
+  }
 }

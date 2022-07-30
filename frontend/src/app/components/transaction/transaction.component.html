@@ -2,7 +2,8 @@
   <div class="select-month">
     <div class="area-select">
       <!-- <label for="select-month">Mês:</label> -->
-      <select class="form-select month" aria-label="Default select example">
+      <select class="form-select month" aria-label="Default select example" [(ngModel)]="params.actualMonth"
+        (ngModelChange)="onChangeMonth($event)">
         <option *ngFor="let month of months" [value]="month.id" [selected]="isActualMonth(month.id)">
           {{ month.name }}
         </option>
@@ -10,8 +11,9 @@
     </div>
     <div class="area-select">
       <!-- <label for="select-month">Ano:</label> -->
-      <select class="form-select year" aria-label="Default select example">
-        <option *ngFor="let year of years" [value]="year" [selected]="years[4]">
+      <select class="form-select year" aria-label="Default select example" [(ngModel)]="params.actualYear"
+        (ngModelChange)="onChangeYear($event)">
+        <option *ngFor=" let year of years" [value]="year" [selected]="years[4]">
           {{ year }}
         </option>
       </select>

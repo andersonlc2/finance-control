@@ -5,9 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.financecontrol.config.security.JWTAuthFilter;
 import com.financecontrol.domain.exception.DomainException;
 import com.financecontrol.domain.exception.NotAuthorizationException;
 import com.financecontrol.domain.model.Account;
@@ -39,6 +36,8 @@ public class CrudTransactionService {
 
 		Type type = typeRepository.findById(transaction.getType().getId()).get();
 		
+		transaction.setMonthDate();
+		transaction.setYearDate();
 		transaction.setType(type);
 		transaction.setStatus(Status.PENDENTE);
 		transaction.setAccount(account);
@@ -59,9 +58,7 @@ public class CrudTransactionService {
 	public Page<Transaction> find(Pageable pageable, Long accountId, String token) {
 		Account account = searchAccountService.search(accountId);
 
-		String user = JWT.require(Algorithm.HMAC512(JWTAuthFilter.KEY)).build().verify(token).getSubject();
-
-		if (userLoggedService.authUser(user, account.getUser().getId())) {
+		if (userLoggedService.authUser(token, account.getUser().getId())) {
 			return transactionRepository.findByAccount(pageable, account);
 		} else {
 			throw new NotAuthorizationException("Não autorizado.");

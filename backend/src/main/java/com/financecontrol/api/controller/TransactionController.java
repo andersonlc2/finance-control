@@ -1,6 +1,5 @@
 package com.financecontrol.api.controller;
 
-import java.time.OffsetDateTime;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -26,7 +25,9 @@ import com.financecontrol.api.model.request.TransactionRequest;
 import com.financecontrol.api.model.response.SaveTransactionResponse;
 import com.financecontrol.domain.model.Transaction;
 import com.financecontrol.domain.repository.TransactionRepository;
+import com.financecontrol.domain.service.AgroupTransactionService;
 import com.financecontrol.domain.service.CrudTransactionService;
+import com.financecontrol.utils.GetToken;
 
 import lombok.AllArgsConstructor;
 
@@ -37,10 +38,13 @@ public class TransactionController {
 
 	private CrudTransactionService crudTransactionService;
 
-	private TransactionRepository transactionRepository;
+	private AgroupTransactionService agroupTransactionService;
 
 	private TransactionMapper transactionMapper;
 	
+	private TransactionRepository transactionRepository;
+	
+	private GetToken getToken;
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -53,11 +57,9 @@ public class TransactionController {
 
 	@GetMapping
 	public Page<SaveTransactionResponse> list(Pageable pageable, 
-			@PathVariable Long accountId, @RequestHeader Map<String, String> header) {
-		
-		String token = header.get("authorization").substring(7);
-		
-		Page<Transaction> pages = crudTransactionService.find(pageable, accountId, token);
+			@PathVariable Long accountId, @RequestHeader Map<String, String> headers) {
+				
+		Page<Transaction> pages = crudTransactionService.find(pageable, accountId, getToken.get(headers));
 
 		return transactionMapper.toCollectionResponse(pages);
 	}
@@ -97,12 +99,13 @@ public class TransactionController {
 	}
 
 	@GetMapping("/date")
-	public Page<Transaction> listByDate(Pageable pageable, @RequestParam String dateInit,
-			@RequestParam String dateFim) {
-		var init = OffsetDateTime.parse(dateInit + "T00:00:00-03:00");
-		var fin = OffsetDateTime.parse(dateFim + "T23:59:59-03:00");
+	public Page<Transaction> listByDate(Pageable pageable,
+			@PathVariable Long accountId,
+			@RequestParam Integer month,
+			@RequestParam Integer year,
+			@RequestHeader Map<String, String> headers) {
 
-		return transactionRepository.findByDueDateBetween(init, fin, pageable);
+		return agroupTransactionService.findByDate(pageable, accountId, month, year, getToken.get(headers));
 	}
 
 }

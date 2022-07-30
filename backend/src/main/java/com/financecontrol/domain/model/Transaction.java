@@ -49,4 +49,16 @@ public class Transaction {
 	@ManyToOne
 	private Type type;
 
+	private Integer month;
+	
+	private Integer year;
+
+	
+	public void setMonthDate() {
+		this.setMonth(this.getDueDate().getMonthValue() - 1);
+	}
+	
+	public void setYearDate() {
+		this.setYear(this.getDueDate().getYear());
+	}
 }

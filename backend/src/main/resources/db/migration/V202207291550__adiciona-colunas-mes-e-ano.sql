@@ -1,0 +1,3 @@
+ALTER TABLE transaction
+	ADD COLUMN month INT NULL,
+	ADD COLUMN year INT NULL;

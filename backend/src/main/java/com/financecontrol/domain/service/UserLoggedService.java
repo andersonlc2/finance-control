@@ -2,6 +2,9 @@ package com.financecontrol.domain.service;
 
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.financecontrol.config.security.JWTAuthFilter;
 import com.financecontrol.domain.model.User;
 import com.financecontrol.domain.repository.UserRepository;
 
@@ -15,7 +18,9 @@ public class UserLoggedService {
 
 	private UserRepository userRepository;
 	
-	public Boolean authUser(String userLogged, Long userId) {
+	public Boolean authUser(String token, Long userId) {
+
+		String userLogged = JWT.require(Algorithm.HMAC512(JWTAuthFilter.KEY)).build().verify(token).getSubject();
 
 		User user = searchUserService.search(userId);
 				
