@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Balances } from 'src/app/core/models/Balances';
 import { Transaction } from 'src/app/core/models/Transaction';
 import { AccountService } from 'src/app/core/service/account/shared/account.service';
 import { TransactionService } from 'src/app/core/service/transaction/shared/transaction.service';
@@ -21,6 +22,7 @@ export class TransactionComponent implements OnInit {
     "actualYear": new Date().getFullYear()
   }
   balanceOfMonth: number = 0;
+  balances?: Balances;
 
   constructor(
     private transactionService: TransactionService,
@@ -32,6 +34,7 @@ export class TransactionComponent implements OnInit {
 
   ngOnInit(): void {
     this.listTransactions(this.params.actualMonth, this.params.actualYear);
+    this.getBalances(this.params.actualMonth, this.params.actualYear);
     this.months = months;
     this.years = this.getYears();
   }
@@ -67,12 +70,14 @@ export class TransactionComponent implements OnInit {
 
   onChangeMonth(deviceValue: string) {
     this.listTransactions(this.params.actualMonth, this.params.actualYear);
+    this.getBalances(this.params.actualMonth, this.params.actualYear);
 
     console.log(deviceValue);
   }
 
   onChangeYear(deviceValue: string) {
     this.listTransactions(this.params.actualMonth, this.params.actualYear);
+    this.getBalances(this.params.actualMonth, this.params.actualYear);
 
     console.log(deviceValue);
   }
@@ -102,6 +107,23 @@ export class TransactionComponent implements OnInit {
     let lastIndex = this.transactions.length - 1;
     if (this.transactions[lastIndex].afterBalance) {
       this.balanceOfMonth = this.transactions[lastIndex].afterBalance!;
+    }
+  }
+
+  getBalances(month: number, year: number) {
+    if (this.accountService.isUserLoggedIn()) {
+      try {
+        const transactionId = Number(this.route.snapshot.paramMap.get("id"));
+        this.transactionService.getBalances(
+          transactionId, year, month).subscribe(balances => {
+
+            this.balances = balances;
+          });
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      this.routeLink.navigate(['login']);
     }
   }
 

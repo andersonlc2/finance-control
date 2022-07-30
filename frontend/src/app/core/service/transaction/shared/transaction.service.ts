@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Transaction, TransactionPages } from 'src/app/core/models/Transaction';
 import { Route, Router } from '@angular/router';
+import { Balances } from 'src/app/core/models/Balances';
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +24,12 @@ export class TransactionService {
     return this.http.get<TransactionPages>(`${environment.api}/accounts/${id}/date?month=${month}&year=${year}`);
   }
 
+  getBalances(id: number, year: number, month: number): Observable<Balances> {
+    let data = new HttpParams();
+    data.append("year", year);
+    data.append("month", month);
+
+    return this.http.get<Balances>(`${environment.api}/accounts/${id}/balanceMonth?month=${month}&year=${year}`)
+
+  }
 }

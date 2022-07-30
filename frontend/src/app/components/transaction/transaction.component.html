@@ -19,9 +19,9 @@
   </div>
 
   <div class="balance">
-    <p *ngIf="balanceOfMonth < 0">Saldo do mês: <span class="negative">{{ balanceOfMonth.toFixed(2) }}</span>
+    <p *ngIf="balanceOfMonth < 0">Saldo do mês: <span class="negative">{{ balances?.balanceMonth?.toFixed(2) }}</span>
     </p>
-    <p *ngIf="balanceOfMonth >= 0">Saldo do mês: <span class="positive">{{ balanceOfMonth.toFixed(2) }}</span>
+    <p *ngIf="balanceOfMonth >= 0">Saldo do mês: <span class="positive">{{ balances?.balanceMonth?.toFixed(2) }}</span>
     </p>
   </div>
 </div>
@@ -46,7 +46,7 @@
         <th></th>
         <th></th>
         <th></th>
-        <th class="right-align">2332.00</th>
+        <th class="right-align">{{ balances?.balanceAfterMonth?.toFixed(2) }}</th>
       </tr>
       <tr *ngFor="let transaction of transactions">
         <th>{{ getDateString(transaction.dueDate!) }}</th>
@@ -57,7 +57,9 @@
             transaction.debitOrCredit }}</span></th>
         <th *ngIf="transaction.debitOrCredit === 'C'" class="right-align"><span class="positive">{{
             transaction.debitOrCredit }}</span></th>
-        <th class="right-align">{{ transaction.afterBalance?.toFixed(2) }}</th>
+
+
+        <th class="right-align">{{ balances!.balanceAfterTransaction[0].toFixed(2) }}</th>
       </tr>
       <tr *ngIf="transactions.length == 0">Nenhuma transação</tr>
     </tbody>

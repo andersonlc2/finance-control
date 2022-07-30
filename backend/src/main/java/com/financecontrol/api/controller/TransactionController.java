@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.financecontrol.api.assembler.TransactionMapper;
 import com.financecontrol.api.model.request.TransactionRequest;
+import com.financecontrol.api.model.response.BalanceMonthResponse;
 import com.financecontrol.api.model.response.TransactionResponse;
 import com.financecontrol.domain.model.Transaction;
 import com.financecontrol.domain.repository.TransactionRepository;
 import com.financecontrol.domain.service.AgroupTransactionService;
+import com.financecontrol.domain.service.BalanceMonthService;
 import com.financecontrol.domain.service.CrudTransactionService;
 import com.financecontrol.utils.GetToken;
 
@@ -45,6 +47,8 @@ public class TransactionController {
 	private TransactionRepository transactionRepository;
 	
 	private GetToken getToken;
+	
+	private BalanceMonthService balanceMonthService;
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -110,4 +114,16 @@ public class TransactionController {
 		return transactionMapper.toCollectionResponse(pages);
 	}
 
+	@GetMapping("/balanceMonth")
+	public BalanceMonthResponse balances(
+			@PathVariable Long accountId,
+			@RequestParam Integer month,
+			@RequestParam Integer year) {
+		var balances = new BalanceMonthResponse();
+		balances.setBalanceAfterMonth(balanceMonthService.getBalanceMonth(accountId, month - 1, year));
+		balances.setBalanceMonth(balanceMonthService.getBalanceMonth(accountId, month, year) + balances.getBalanceAfterMonth());
+		balances.setBalanceAfterTransaction(balanceMonthService.getBalanceTransaction(accountId, month, year));
+		
+		return balances;
+	}
 }
