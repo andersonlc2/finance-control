@@ -8,7 +8,8 @@ export class Transaction {
   debitOrCredit?: string;
   dueDate?: string;
   value?: number;
-  status?: string
+  status?: string;
+  afterBalance?: number;
 }
 
 export type TransactionPages = {

@@ -19,8 +19,9 @@ export class TransactionComponent implements OnInit {
   params = {
     "actualMonth": new Date().getMonth(),
     "actualYear": new Date().getFullYear()
-
   }
+  balanceOfMonth: number = 0;
+
   constructor(
     private transactionService: TransactionService,
     private route: ActivatedRoute,
@@ -44,14 +45,14 @@ export class TransactionComponent implements OnInit {
   getYears(): number[] {
     let actualYear: number = new Date().getFullYear();
     let listYears: number[] = [];
-
     let cont: number = 0;
     for (let index = 4; index >= 0; index--) {
-
       listYears[cont] = actualYear - index;
-
-      if (index === 0) {
+      if (index === 1) {
         listYears[cont] = actualYear;
+      }
+      if (index === 0) {
+        listYears[cont] = actualYear + 1;
       }
       cont++;
     }
@@ -84,6 +85,9 @@ export class TransactionComponent implements OnInit {
         this.transactionService.getAllTransactions(
           transactionId, year, month).subscribe(transactions => {
             this.transactions = transactions.content;
+
+            this.setBalanceOfMonth();
+
           });
 
       } catch (err) {
@@ -93,4 +97,12 @@ export class TransactionComponent implements OnInit {
       this.routeLink.navigate(['login']);
     }
   }
+
+  setBalanceOfMonth() {
+    let lastIndex = this.transactions.length - 1;
+    if (this.transactions[lastIndex].afterBalance) {
+      this.balanceOfMonth = this.transactions[lastIndex].afterBalance!;
+    }
+  }
+
 }
