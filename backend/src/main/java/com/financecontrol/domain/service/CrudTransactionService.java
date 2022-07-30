@@ -36,18 +36,14 @@ public class CrudTransactionService {
 
 		Type type = typeRepository.findById(transaction.getType().getId()).get();
 		
-		if (transaction.getDebitOrCredit().equals("C")) {
-			transaction.setAfterBalance(account.getBalance() + transaction.getValue());
-		} else {
-			transaction.setAfterBalance(account.getBalance() - transaction.getValue());
-		}
+		transaction.setAfterBalance(account.getBalance());
 		
 		transaction.setMonthDate();
 		transaction.setYearDate();
 		transaction.setType(type);
 		transaction.setStatus(Status.PENDENTE);
 		transaction.setAccount(account);
-
+		
 		return transactionRepository.save(transaction);
 	}
 
