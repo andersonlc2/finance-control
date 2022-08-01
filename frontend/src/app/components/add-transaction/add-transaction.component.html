@@ -1,1 +1,52 @@
-<p>add-transaction works!</p>
+<div class="add-form-area">
+  <div class="form-area">
+    <form (ngSubmit)="onSubmit()" #form="ngForm">
+      <section>
+
+        <div>
+          <label class="form-label">Transação:</label>
+          <select name="select-type" class="form-select" [(ngModel)]="transaction.type!.id">
+            <option value="0" disabled selected="true">Selecione um tipo de trasação</option>
+            <option *ngFor="let type of types" [value]="type.id" [selected]="false">
+              {{ type.name }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label for="due-date" class="form-label">Data vencimento:</label>
+          <input type="date" name="due-date" id="due-date" class="form-control" [(ngModel)]="transaction.dueDate"
+            required>
+        </div>
+
+        <div>
+          <label for="floatingTextarea" class="form-label">Descrição</label>
+          <textarea class="form-control" placeholder="Informe uma descrição da trasação" name="text-descricao" rows="5"
+            cols="30" id="floatingTextarea" [(ngModel)]="transaction.description"></textarea>
+        </div>
+
+        <div class="right-align">
+          <label for="" class="form-label">Tipo transação:</label>
+          <select name="select-transaction" class="form-select" [(ngModel)]="transaction.debitOrCredit">
+            <option value="0" disabled selected="true">Selecione entre débito ou crédito</option>
+            <option value="1">Debito</option>
+            <option value="2">Crédito</option>
+          </select>
+        </div>
+
+        <div class="right-align">
+          <label for="value" class="form-label">Valor:</label>
+          <span class="input-number">R$</span>
+          <input type="number" min="0" name="value" id="value" class="form-control input-btn"
+            [(ngModel)]="transaction.value">
+        </div>
+
+        <div class="input-area">
+          <input type="submit" value="Enviar" class="btn success limited">
+          <input (click)="cancelClick()" value="Cancelar" class="btn cancel limited">
+        </div>
+
+      </section>
+    </form>
+  </div>
+</div>

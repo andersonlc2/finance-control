@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,7 +27,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
 
-	public static final long JWT_EXP = 60 * 60 * 60 * 2;
+	public static final long JWT_EXP = 1800000;
 
 	public static final String KEY = "6f693008-afeb-49a2-be35-a76a5f451d7e";
 
@@ -65,7 +64,8 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
 				.withClaim("id", userTmp.getId())
 				.withClaim("name", userTmp.getName())
 				.withIssuedAt(new Date())
-				.withExpiresAt(new Date(System.currentTimeMillis() + JWT_EXP)).sign(Algorithm.HMAC512(KEY));
+				.withExpiresAt(new Date(System.currentTimeMillis() + JWT_EXP))
+				.sign(Algorithm.HMAC512(KEY));
 		
 		response.getWriter().write(token);
 		response.getWriter().flush();

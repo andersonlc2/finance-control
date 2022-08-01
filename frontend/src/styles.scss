@@ -56,6 +56,41 @@ form {
   }
 }
 
+.cancel {
+  border: solid 1px #aff;
+  background: #161a2e;
+  color: #fff;
+
+  &:hover {
+    background-color: red;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: #1e3050;
+  }
+}
+
+.success {
+  border: solid 1px #aff;
+  background: #161a2e;
+  color: #fff;
+
+  &:hover {
+    background-color: green;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: #1e3050;
+  }
+}
+
+.limited {
+  width: 72px;
+  padding: 8px 0;
+}
+
 li {
   list-style: none;
 }

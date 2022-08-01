@@ -1,0 +1,35 @@
+.add-form-area {
+  display: flex;
+  justify-content: center;
+
+  .form-area {
+    background-color: #161a2e;
+    border-radius: 10px;
+    margin-top: 30px;
+    padding: 40px;
+    max-width: 420px;
+  }
+}
+
+form {
+  div {
+    margin-top: 5px;
+  }
+}
+
+.input-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-btn {
+  padding-left: 30px;
+}
+
+.input-number {
+  color: #161a2e;
+  display: block;
+  position: absolute;
+  padding-left: 10px;
+  padding-top: 5px;
+}

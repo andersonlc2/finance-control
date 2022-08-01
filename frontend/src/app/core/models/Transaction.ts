@@ -1,9 +1,6 @@
 export class Transaction {
   id?: string;
-  type?: {
-    id: number,
-    name: string,
-  };
+  type?: Type;
   description?: string;
   debitOrCredit?: string;
   dueDate?: string;
@@ -22,4 +19,9 @@ export type TransactionPages = {
   first: boolean;
   numberOfElements: number;
   empty: boolean;
+}
+
+export type Type = {
+  id?: number,
+  name: string,
 }

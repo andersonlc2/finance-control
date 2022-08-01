@@ -1,7 +1,7 @@
 package com.financecontrol.api.model.response;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ public class BalanceMonthResponse {
 	
 	private Double balanceAfterMonth;
 
-	private List<Double> balanceAfterTransaction = new ArrayList<>();
+	private Map<Long, Double> balanceAfterTransaction = new HashMap<>();
 
 	private Double balanceMonth;
 }

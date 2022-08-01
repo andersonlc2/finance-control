@@ -114,12 +114,13 @@ public class TransactionController {
 		var balances = new BalanceMonthResponse();
 		balances.setBalanceAfterTransaction(balanceMonthService.getBalanceTransaction(accountId, month, year));
 
-		var pageReponse = transactionMapper.toCollectionResponse(page);
+		var pageReponse = transactionMapper.toCollectionResponse(page);		
 		
 		for (TransactionResponse t : pageReponse) {
-			for (Double balance : balances.getBalanceAfterTransaction()) {
-				t.setAfterBalance(balance);
-				break;
+			for (Map.Entry<Long, Double> balance : balances.getBalanceAfterTransaction().entrySet()) {
+				if (t.getId() == balance.getKey()) {
+					t.setAfterBalance(balance.getValue());					
+				}
 			}
 		}
 		
@@ -133,7 +134,7 @@ public class TransactionController {
 			@RequestParam Integer year) {
 		var balances = new BalanceMonthResponse();
 		balances.setBalanceAfterMonth(balanceMonthService.getBalanceMonth(accountId, month - 1, year));
-		balances.setBalanceMonth(balanceMonthService.getBalanceMonth(accountId, month, year) + balances.getBalanceAfterMonth());
+		balances.setBalanceMonth(balanceMonthService.getBalanceMonth(accountId, month, year));
 		balances.setBalanceAfterTransaction(balanceMonthService.getBalanceTransaction(accountId, month, year));
 		
 		return balances;

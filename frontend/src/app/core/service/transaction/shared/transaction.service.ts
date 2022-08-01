@@ -1,10 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Account } from 'src/app/core/models/Account';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Transaction, TransactionPages } from 'src/app/core/models/Transaction';
-import { Route, Router } from '@angular/router';
+import { Transaction, TransactionPages, Type } from 'src/app/core/models/Transaction';
 import { Balances } from 'src/app/core/models/Balances';
 
 @Injectable({
@@ -30,6 +28,17 @@ export class TransactionService {
     data.append("month", month);
 
     return this.http.get<Balances>(`${environment.api}/accounts/${id}/balanceMonth?month=${month}&year=${year}`)
+  }
 
+  getTypes(): Observable<Type[]> {
+
+    return this.http.get<Type[]>(`${environment.api}/transactions-type`)
+  }
+
+  save(id: number, transaction: Transaction): Observable<Transaction> {
+
+    console.log(transaction);
+
+    return this.http.post<Transaction>(`${environment.api}/accounts/${id}`, transaction);
   }
 }

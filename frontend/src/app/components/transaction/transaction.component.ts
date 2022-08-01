@@ -14,7 +14,7 @@ import { MonthOfYear, months } from 'src/utils/months';
 export class TransactionComponent implements OnInit {
 
   transactions: Transaction[] = [];
-  accountId!: number;
+  accountId: number;
 
   months: Array<MonthOfYear> = [];
   years: Array<number> = [];
@@ -22,8 +22,7 @@ export class TransactionComponent implements OnInit {
     "actualMonth": new Date().getMonth(),
     "actualYear": new Date().getFullYear()
   }
-  balanceOfMonth: number = 0;
-  balances!: Balances;
+  balances: Balances = {}
 
   constructor(
     private transactionService: TransactionService,
@@ -66,22 +65,21 @@ export class TransactionComponent implements OnInit {
   }
 
   getDateString(date: string): string {
-    return new Date(date!).toLocaleDateString()
+    let dateUtc = new Date(date!);
+    dateUtc.setHours(dateUtc.getHours() + 3);
+
+    return dateUtc.toLocaleDateString();
   }
 
 
   onChangeMonth(deviceValue: string) {
     this.listTransactions(this.params.actualMonth, this.params.actualYear);
     this.getBalances(this.params.actualMonth, this.params.actualYear);
-
-    console.log(deviceValue);
   }
 
   onChangeYear(deviceValue: string) {
     this.listTransactions(this.params.actualMonth, this.params.actualYear);
     this.getBalances(this.params.actualMonth, this.params.actualYear);
-
-    console.log(deviceValue);
   }
 
   listTransactions(month: number, year: number) {
@@ -90,9 +88,6 @@ export class TransactionComponent implements OnInit {
         this.transactionService.getAllTransactions(
           this.accountId, year, month).subscribe(transactions => {
             this.transactions = transactions.content;
-
-            this.setBalanceOfMonth();
-
           });
 
       } catch (err) {
@@ -103,18 +98,14 @@ export class TransactionComponent implements OnInit {
     }
   }
 
-  setBalanceOfMonth() {
-    let lastIndex = this.transactions.length - 1;
-    if (this.transactions[lastIndex].afterBalance) {
-      this.balanceOfMonth = this.transactions[lastIndex].afterBalance!;
-    }
-  }
-
   getBalances(month: number, year: number) {
     if (this.accountService.isUserLoggedIn()) {
       try {
         this.transactionService.getBalances(
           this.accountId, year, month).subscribe(balances => {
+            if (!balances.balanceMonth) {
+              this.balances.balanceMonth = 0;
+            }
 
             this.balances = balances;
           });

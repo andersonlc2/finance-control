@@ -1,7 +1,8 @@
 package com.financecontrol.domain.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -35,17 +36,21 @@ public class BalanceMonthService {
 		return balance;
 	}
 	
-	public List<Double> getBalanceTransaction(Long accountId, Integer month, Integer year) {
+	public Map<Long, Double> getBalanceTransaction(Long accountId, Integer month, Integer year) {
 		Account account = searchAccountService.search(accountId);
 		List<Transaction> transaction = transactionRespository.findByDate(account, month, year);
 		
-		Double balance = getBalanceMonth(accountId, month -1, year);
-		List<Double> list = new ArrayList<>();
+		Map<Long, Double> list = new HashMap<>();
+		// Double balance = getBalanceMonth(accountId, month -1, year);
+		// var balanceActual = balance;
+		var balanceActual = 0.0;
 		for (Transaction t : transaction) {
 			if (t.getDebitOrCredit().equals("C")) {
-				list.add(balance + t.getValue());
+				balanceActual += t.getValue();
+				list.put(t.getId(), balanceActual);
 			} else {
-				list.add(balance - t.getValue());
+				balanceActual -= t.getValue();
+				list.put(t.getId(), balanceActual);
 			}
 		}
 		

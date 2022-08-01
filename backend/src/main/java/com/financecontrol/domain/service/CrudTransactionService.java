@@ -36,6 +36,8 @@ public class CrudTransactionService {
 
 		Type type = typeRepository.findById(transaction.getType().getId()).get();
 		
+		
+		
 		transaction.setAfterBalance(account.getBalance());
 		
 		transaction.setMonthDate();

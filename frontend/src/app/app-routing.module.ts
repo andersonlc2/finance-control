@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
+import { MainlistComponent } from './components/mainlist/mainlist.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent }
     ]
+  },
+  {
+    path: 'main-list',
+    component: MainlistComponent,
   }
 ];
 
