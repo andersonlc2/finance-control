@@ -16,7 +16,6 @@ import lombok.Setter;
 @Setter
 public class TransactionRequest {
 
-	@NotBlank
 	private String description;
 
 	@NotBlank

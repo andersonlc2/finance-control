@@ -14,6 +14,7 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { MainlistComponent } from './components/mainlist/mainlist.component';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
+import { SigninComponent } from './pages/signin/signin.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AddTransactionComponent } from './components/add-transaction/add-transa
     MainlistComponent,
     TransactionComponent,
     AddTransactionComponent,
+    SigninComponent,
   ],
   imports: [
     BrowserModule,

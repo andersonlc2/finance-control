@@ -32,7 +32,7 @@ export class TransactionService {
 
   getTypes(): Observable<Type[]> {
 
-    return this.http.get<Type[]>(`${environment.api}/transactions-type`)
+    return this.http.get<Type[]>(`${environment.api}/transactions-type`);
   }
 
   save(id: number, transaction: Transaction): Observable<Transaction> {

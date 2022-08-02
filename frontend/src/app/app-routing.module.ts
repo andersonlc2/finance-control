@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
 import { MainlistComponent } from './components/mainlist/mainlist.component';
+import { SigninComponent } from './pages/signin/signin.component';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
     component: AuthenticationComponent,
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
+      { path: 'signin', component: SigninComponent }
     ]
   },
   {

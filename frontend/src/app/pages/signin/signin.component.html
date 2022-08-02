@@ -1,0 +1,33 @@
+<div class="login-background">
+  <div class="login-area">
+
+    <div class="input-area">
+
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
+        <div>
+          <label class="form-label" for="name">Nome completo</label>
+          <input class="form-control" type="text" [(ngModel)]="user.name" name="name" id="name" placeholder="" required>
+        </div>
+        <div>
+          <label class="form-label" for="email">Email</label>
+          <input class="form-control" type="email" [(ngModel)]="user.email" name="email" id="email" placeholder=""
+            required>
+        </div>
+        <div>
+          <label class="form-label" for="pass">Senha</label>
+          <input class="form-control" type="password" [(ngModel)]="user.password" name="pass" id="pass" placeholder=""
+            required>
+        </div>
+        <div>
+          <label class="form-label" for="confirm-password">Confirme a senha</label>
+          <input class="form-control" type="password" [(ngModel)]="user.confirmPassword" name="confirm-password"
+            id="confirm-password" placeholder="" required>
+        </div>
+
+        <input class="btn info" type="submit" value="Cadastrar">
+
+      </form>
+    </div>
+
+  </div>
+</div>

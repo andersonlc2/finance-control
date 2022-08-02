@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import jwt_decode from "jwt-decode";
+import { User } from 'src/app/core/models/User';
+import { Account } from 'src/app/core/models/Account';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +25,13 @@ export class AccountService {
     return false;
   }
 
-  createAccount(account: any) {
-    return new Promise((resolve) => {
-      resolve(true);
-    })
+  signIn(user: User): Observable<User> {
+    return this.http.post<User>(`${environment.api}/users`, user);
+
+  }
+
+  createAccount(account: Account, userId: number): Observable<Account> {
+    return this.http.post<Account>(`${environment.api}/users/${userId}/accounts`, account);
   }
 
   logout() {
