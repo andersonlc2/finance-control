@@ -4,11 +4,11 @@ import { Transaction, Type } from 'src/app/core/models/Transaction';
 import { TransactionService } from 'src/app/core/service/transaction/shared/transaction.service';
 
 @Component({
-  selector: 'app-add-transaction',
-  templateUrl: './add-transaction.component.html',
-  styleUrls: ['./add-transaction.component.scss']
+  selector: 'app-detail-transaction',
+  templateUrl: './detail-transaction.component.html',
+  styleUrls: ['./detail-transaction.component.scss']
 })
-export class AddTransactionComponent implements OnInit {
+export class DetailTransactionComponent implements OnInit {
 
   transaction: Transaction = {
     id: "",
@@ -24,6 +24,7 @@ export class AddTransactionComponent implements OnInit {
     afterBalance: 0
   };
   accountId: number;
+  transactionId: number;
   types: Type[] = [];
 
   constructor(
@@ -31,40 +32,32 @@ export class AddTransactionComponent implements OnInit {
     private routeLink: Router,
     private transactionService: TransactionService
   ) {
-    this.accountId = Number(this.route.snapshot.paramMap.get("id"));
+    this.accountId = Number(this.route.snapshot.paramMap.get("accountId"));
+    this.transactionId = Number(this.route.snapshot.paramMap.get("transactionId"));
   }
 
   ngOnInit(): void {
+    this.findTransaction();
     this.setTypes();
   }
 
   onSubmit() {
-    this.addTransaction();
+
   }
 
-  addTransaction(): void {
-    if (this.transaction.debitOrCredit == "1") {
-      this.transaction.debitOrCredit = "D";
-    } else {
-      this.transaction.debitOrCredit = "C";
-    }
+  findTransaction(): void {
+    this.transactionService.getTransactionById(this.accountId, this.transactionId).subscribe(transaction => {
+      this.transaction = transaction;
+      this.transaction.dueDate = this.getDateString(transaction.dueDate!);
+    })
 
-    try {
-      this.transaction.dueDate = new Date(this.transaction.dueDate!).toISOString();
+  }
 
-      this.transactionService.save(this.accountId, this.transaction).subscribe(Transaction => {
+  getDateString(date: string): string {
+    let dateUtc = new Date(date!);
+    dateUtc.setHours(dateUtc.getHours() + 3);
 
-        this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
-          this.routeLink.navigate([`transaction/${this.accountId}`]);
-        });
-
-      });
-
-      this.routeLink.navigate([`transaction/${this.accountId}`]);
-
-    } catch (err) {
-      console.error(err);
-    }
+    return dateUtc.toISOString().substring(0, 10);
   }
 
   setTypes(): void {

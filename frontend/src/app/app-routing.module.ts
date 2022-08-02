@@ -8,6 +8,7 @@ import { TransactionComponent } from './components/transaction/transaction.compo
 import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
 import { MainlistComponent } from './components/mainlist/mainlist.component';
 import { SigninComponent } from './pages/signin/signin.component';
+import { DetailTransactionComponent } from './components/detail-transaction/detail-transaction.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: 'transaction/:id', component: TransactionComponent },
-      { path: 'transaction/:id/add', component: AddTransactionComponent }
+      { path: 'transaction/:id/add', component: AddTransactionComponent },
+      { path: 'accounts/:accountId/transaction/:transactionId', component: DetailTransactionComponent }
     ],
     canActivate: [AuthGuard]
   },

@@ -42,7 +42,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let transaction of transactions">
+      <tr *ngFor="let transaction of transactions"
+        routerLink="/accounts/{{ accountId }}/transaction/{{ transaction.id }}">
         <td>{{ getDateString(transaction.dueDate!) }}</td>
         <th>{{ transaction.type?.name }}</th>
         <td>{{ transaction.description}}</td>

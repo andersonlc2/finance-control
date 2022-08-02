@@ -22,6 +22,10 @@ export class TransactionService {
     return this.http.get<TransactionPages>(`${environment.api}/accounts/${id}/date?month=${month}&year=${year}`);
   }
 
+  getTransactionById(accountId: number, transactionId: number): Observable<Transaction> {
+    return this.http.get<Transaction>(`${environment.api}/accounts/${accountId}/transaction/${transactionId}`);
+  }
+
   getBalances(id: number, year: number, month: number): Observable<Balances> {
     let data = new HttpParams();
     data.append("year", year);
@@ -41,4 +45,5 @@ export class TransactionService {
 
     return this.http.post<Transaction>(`${environment.api}/accounts/${id}`, transaction);
   }
+
 }

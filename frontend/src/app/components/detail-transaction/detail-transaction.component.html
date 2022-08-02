@@ -40,12 +40,13 @@
         <div class="right-align">
           <label for="value" class="form-label">Valor:</label>
           <span class="input-number">R$</span>
-          <input type="number" min="0" step=".01" name="value" id="value" class="form-control input-btn"
+          <input type="number" step=".01" name="value" id="value" class="form-control input-btn"
             [(ngModel)]="transaction.value">
         </div>
 
         <div class="input-area">
-          <input type="submit" value="Enviar" class="btn success limited">
+          <input type="submit" value="Salvar" class="btn success limited">
+          <input (click)="cancelClick()" value="Excluir" class="btn cancel limited">
         </div>
 
       </section>
