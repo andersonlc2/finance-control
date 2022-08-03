@@ -41,7 +41,9 @@ export class TransactionService {
 
   save(id: number, transaction: Transaction): Observable<Transaction> {
 
-    console.log(transaction);
+    if (transaction.id) {
+      return this.http.put<Transaction>(`${environment.api}/accounts/${id}/transaction/${transaction.id}`, transaction);
+    }
 
     return this.http.post<Transaction>(`${environment.api}/accounts/${id}`, transaction);
   }

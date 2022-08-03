@@ -80,13 +80,13 @@ public class TransactionController {
 	}
 
 	@PutMapping("/transaction/{transactionId}")
-	public ResponseEntity<Transaction> upt(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
+	public ResponseEntity<Transaction> upt(@PathVariable Long accountId, @PathVariable Long transactionId, @RequestBody Transaction transaction) {
 		if (!transactionRepository.existsById(transactionId)) {
 			return ResponseEntity.notFound().build();
 		}
-
+		
 		transaction.setId(transactionId);
-		crudTransactionService.add(transactionId, transaction);
+		crudTransactionService.add(accountId, transaction);
 
 		return ResponseEntity.ok(transaction);
 	}

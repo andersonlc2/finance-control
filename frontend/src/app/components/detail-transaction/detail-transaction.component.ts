@@ -42,13 +42,34 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   onSubmit() {
+    try {
+      this.transaction.dueDate = new Date(this.transaction.dueDate!).toISOString();
+      if (this.transaction.debitOrCredit == "1") {
+        this.transaction.debitOrCredit = "D";
+      } else {
+        this.transaction.debitOrCredit = "C";
+      }
 
+      this.transactionService.save(this.accountId, this.transaction).subscribe(transaction => {
+        this.transaction.dueDate = this.getDateString(transaction.dueDate!);
+
+        this.routeLink.navigate([`transaction/${this.accountId}`]);
+      })
+
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   findTransaction(): void {
     this.transactionService.getTransactionById(this.accountId, this.transactionId).subscribe(transaction => {
       this.transaction = transaction;
       this.transaction.dueDate = this.getDateString(transaction.dueDate!);
+      if (this.transaction.debitOrCredit == "D") {
+        this.transaction.debitOrCredit = "1";
+      } else {
+        this.transaction.debitOrCredit = "2";
+      }
     })
 
   }
