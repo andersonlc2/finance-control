@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Component
 public class AccountMapper {
-
 	private ModelMapper modelMapper;
 
 	public AccountResponse toResponse(Account account) {
