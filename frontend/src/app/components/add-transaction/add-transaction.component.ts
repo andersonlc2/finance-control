@@ -43,15 +43,7 @@ export class AddTransactionComponent implements OnInit {
   }
 
   addTransaction(): void {
-    if (this.transaction.debitOrCredit == "1") {
-      this.transaction.debitOrCredit = "D";
-    } else {
-      this.transaction.debitOrCredit = "C";
-    }
-
     try {
-      this.transaction.dueDate = new Date(this.transaction.dueDate!).toISOString();
-
       this.transactionService.save(this.accountId, this.transaction).subscribe(Transaction => {
 
         this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {

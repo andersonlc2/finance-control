@@ -41,11 +41,48 @@ export class TransactionService {
 
   save(id: number, transaction: Transaction): Observable<Transaction> {
 
+    transaction.dueDate = new Date(transaction.dueDate!).toISOString();
+    transaction.debitOrCredit = this.getDebitOrCredit(transaction.debitOrCredit!);
+
     if (transaction.id) {
       return this.http.put<Transaction>(`${environment.api}/accounts/${id}/transaction/${transaction.id}`, transaction);
     }
 
     return this.http.post<Transaction>(`${environment.api}/accounts/${id}`, transaction);
+  }
+
+  getDebitOrCredit(debitOrCredit: string): string {
+    if (debitOrCredit == "1") {
+      return "D";
+    } else {
+      return "C";
+    }
+  }
+
+  update(id: number, transaction: Transaction): Transaction {
+    let transactionUpdated = new Transaction();
+
+    transaction.dueDate = new Date(transaction.dueDate!).toISOString();
+    transaction.debitOrCredit = this.getDebitOrCredit(transaction.debitOrCredit!);
+
+    this.http.put<Transaction>(`${environment.api}/accounts/${id}/transaction/${transaction.id}`, transaction)
+      .subscribe(transaction => {
+        transactionUpdated = transaction;
+        transactionUpdated.dueDate = this.getDateString(transactionUpdated.dueDate!);
+      });
+
+    return transactionUpdated;
+  }
+
+  delete(accountId: number, transactionId: number): void {
+    this.http.delete(`${environment.api}/accounts/${accountId}/transaction/${transactionId}`).subscribe();
+  }
+
+  getDateString(date: string): string {
+    let dateUtc = new Date(date!);
+    dateUtc.setHours(dateUtc.getHours() + 3);
+
+    return dateUtc.toISOString().substring(0, 10);
   }
 
 }

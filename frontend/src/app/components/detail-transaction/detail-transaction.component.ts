@@ -10,6 +10,7 @@ import { TransactionService } from 'src/app/core/service/transaction/shared/tran
 })
 export class DetailTransactionComponent implements OnInit {
 
+
   transaction: Transaction = {
     id: "",
     type: {
@@ -42,19 +43,30 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   onSubmit() {
+    this.updTransaction();
+  }
+
+  updTransaction(): void {
+    /*
     try {
-      this.transaction.dueDate = new Date(this.transaction.dueDate!).toISOString();
-      if (this.transaction.debitOrCredit == "1") {
-        this.transaction.debitOrCredit = "D";
-      } else {
-        this.transaction.debitOrCredit = "C";
-      }
+      this.transactionService.save(this.accountId, this.transaction).subscribe(t => {
 
-      this.transactionService.save(this.accountId, this.transaction).subscribe(transaction => {
-        this.transaction.dueDate = this.getDateString(transaction.dueDate!);
+        this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
+          this.routeLink.navigate([`transaction/${this.accountId}`]);
+        });
 
-        this.routeLink.navigate([`transaction/${this.accountId}`]);
       })
+
+    } catch (error) {
+      console.error(error);
+    }
+    */
+    try {
+      this.transaction = this.transactionService.update(this.accountId, this.transaction);
+
+      this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
+        this.routeLink.navigate([`transaction/${this.accountId}`]);
+      });
 
     } catch (error) {
       console.error(error);
@@ -62,9 +74,13 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   findTransaction(): void {
-    this.transactionService.getTransactionById(this.accountId, this.transactionId).subscribe(transaction => {
-      this.transaction = transaction;
-      this.transaction.dueDate = this.getDateString(transaction.dueDate!);
+    this.transactionService.getTransactionById(this.accountId, this.transactionId).subscribe(t => {
+
+      let prov = t;
+      prov.dueDate = this.getDateString(t.dueDate!);
+
+      this.transaction = prov;
+
       if (this.transaction.debitOrCredit == "D") {
         this.transaction.debitOrCredit = "1";
       } else {
@@ -95,4 +111,13 @@ export class DetailTransactionComponent implements OnInit {
   cancelClick(): void {
     this.routeLink.navigate([`transaction/${this.accountId}`]);
   }
+
+  deleteClick(): void {
+    this.transactionService.delete(this.accountId, this.transactionId);
+
+    this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
+      this.routeLink.navigate([`transaction/${this.accountId}`]);
+    });
+  }
+
 }
