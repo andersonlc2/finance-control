@@ -86,7 +86,7 @@ public class TransactionController {
 		}
 		
 		transaction.setId(transactionId);
-		crudTransactionService.add(accountId, transaction);
+		crudTransactionService.upd(accountId, transaction);
 
 		return ResponseEntity.ok(transaction);
 	}

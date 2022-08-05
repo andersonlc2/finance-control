@@ -50,6 +50,27 @@ public class CrudTransactionService {
 	}
 
 	@Transactional
+	public Transaction upd(Long accountId, Transaction transaction) {
+		Account account = searchAccountService.search(accountId);
+		Transaction transactionOld = findById(transaction.getId());
+
+		account.modifyBalanceDel(transactionOld.getValue(), transactionOld.getDebitOrCredit());
+		account.modifyBalanceAdd(transaction.getValue(), transaction.getDebitOrCredit());
+
+		Type type = typeRepository.findById(transaction.getType().getId()).get();
+
+		transaction.setAfterBalance(account.getBalance());
+
+		transaction.setMonthDate();
+		transaction.setYearDate();
+		transaction.setType(type);
+		transaction.setStatus(Status.PENDENTE);
+		transaction.setAccount(account);
+
+		return transactionRepository.save(transaction);
+	}
+
+	@Transactional
 	public void delete(Long transactionId) {
 		Transaction transaction = findById(transactionId);
 		Account account = searchAccountService.search(transaction.getAccount().getId());

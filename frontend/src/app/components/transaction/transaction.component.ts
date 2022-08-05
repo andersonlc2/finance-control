@@ -51,7 +51,7 @@ export class TransactionComponent implements OnInit {
     let listYears: number[] = [];
     let cont: number = 0;
     for (let index = 4; index >= 0; index--) {
-      listYears[cont] = actualYear - index;
+      listYears[cont] = (actualYear + 1) - index;
       if (index === 1) {
         listYears[cont] = actualYear;
       }
