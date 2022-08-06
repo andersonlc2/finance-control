@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import com.financecontrol.api.model.response.AnnualReportResponse;
+import com.financecontrol.domain.model.Type;
 import com.financecontrol.domain.service.ChartsTransactionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -145,8 +146,15 @@ public class TransactionController {
 		return balances;
 	}
 	@GetMapping("/annual-report-response")
-	public ResponseEntity<List<AnnualReportResponse>> chartsBalanceMonth(Pageable pageable, @RequestHeader Map<String, String> headers) {
-		List<AnnualReportResponse> resp = chartsTransactionService.getAnnualReport(pageable, getToken.get(headers));
+	public ResponseEntity<List<AnnualReportResponse>> chartsBalanceMonth(@RequestHeader Map<String, String> headers) {
+		List<AnnualReportResponse> resp = chartsTransactionService.getAnnualReport(getToken.get(headers));
+
+		return ResponseEntity.ok(resp);
+	}
+
+	@GetMapping("/total-expenses")
+	public ResponseEntity<Map<String, Double>> chartsTotalExpenses(@RequestHeader Map<String, String> headers) {
+		var resp = chartsTransactionService.getTotalExpensesType(getToken.get(headers));
 
 		return ResponseEntity.ok(resp);
 	}

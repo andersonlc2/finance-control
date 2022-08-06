@@ -5,16 +5,17 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.financecontrol.api.model.response.AnnualReportResponse;
 import com.financecontrol.config.security.JWTAuthFilter;
 import com.financecontrol.domain.model.Account;
+import com.financecontrol.domain.model.Transaction;
+import com.financecontrol.domain.model.Type;
 import com.financecontrol.domain.model.User;
 import com.financecontrol.domain.repository.AccountRepository;
+import com.financecontrol.domain.repository.TransactionRepository;
+import com.financecontrol.domain.repository.TypeRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
@@ -23,17 +24,16 @@ public class ChartsTransactionService {
 
     private BalanceMonthService balanceMonthService;
 
-    private SearchAccountService searchAccountService;
-
     private CrudUserService crudUserService;
 
     private AccountRepository accountRepository;
 
-    public List<AnnualReportResponse> getAnnualReport(Pageable pageable, String token) {
-        String userLogged = JWT.require(Algorithm.HMAC512(JWTAuthFilter.KEY)).build().verify(token).getSubject();
+    private TransactionRepository transactionRepository;
 
-        User user = crudUserService.findByEmail(userLogged);
-        Page<Account> accountList = accountRepository.findByUser(pageable, user);
+    private TypeRepository typeRepository;
+
+    public List<AnnualReportResponse> getAnnualReport(String token) {
+        List<Account> accountList = accountRepository.findByUser(this.setUserLogged(token));
         List<AnnualReportResponse> listAnnualReportResponse = new ArrayList<>();
 
         accountList.forEach(account -> {
@@ -52,5 +52,31 @@ public class ChartsTransactionService {
         });
 
         return listAnnualReportResponse;
+    }
+
+    public Map<String, Double> getTotalExpensesType(String token) {
+        List<Account> accountList = accountRepository.findByUser(this.setUserLogged(token));
+        Map<String, Double> resultType = new TreeMap<>();
+
+        accountList.forEach(account -> {
+            List<Transaction> transactionList = transactionRepository.findTotalExpensesTypes(account);
+            transactionList.forEach(transaction -> {
+                var type = transaction.getType();
+                if (resultType.containsKey(type.getName())) {
+                    var sum = resultType.get(type.getName()) + transaction.getValue();
+                    resultType.put(type.getName(), sum);
+                } else {
+                    resultType.put(type.getName(), transaction.getValue());
+                }
+            });
+        });
+
+        return resultType;
+    }
+
+    private User setUserLogged(String token) {
+        String userLogged = JWT.require(Algorithm.HMAC512(JWTAuthFilter.KEY)).build().verify(token).getSubject();
+
+        return crudUserService.findByEmail(userLogged);
     }
 }

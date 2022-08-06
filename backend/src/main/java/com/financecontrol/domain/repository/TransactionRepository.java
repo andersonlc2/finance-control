@@ -1,7 +1,9 @@
 package com.financecontrol.domain.repository;
 
 import java.util.List;
+import java.util.Map;
 
+import com.financecontrol.domain.model.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +30,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 			Account account,
 			Integer month, 
 			Integer year);
+
+	@Query("SELECT t FROM Transaction t WHERE t.account = :account AND t.debitOrCredit = 'D'")
+	List<Transaction> findTotalExpensesTypes(Account account);
 }
