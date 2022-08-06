@@ -20,6 +20,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartsComponent } from './components/dashboard/charts/charts.component';
 import { ChartsbarComponent } from './components/dashboard/charts/chartsbar/chartsbar.component';
 import { ChartsdonutComponent } from './components/dashboard/charts/chartsdonut/chartsdonut.component';
+import { ChartszoomableComponent } from './components/dashboard/charts/chartszoomable/chartszoomable.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ChartsdonutComponent } from './components/dashboard/charts/chartsdonut/
     ChartsComponent,
     ChartsbarComponent,
     ChartsdonutComponent,
+    ChartszoomableComponent,
   ],
   imports: [
     BrowserModule,
