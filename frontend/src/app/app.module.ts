@@ -19,6 +19,7 @@ import { DetailTransactionComponent } from './components/detail-transaction/deta
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartsComponent } from './components/dashboard/charts/charts.component';
 import { ChartsbarComponent } from './components/dashboard/charts/chartsbar/chartsbar.component';
+import { ChartsdonutComponent } from './components/dashboard/charts/chartsdonut/chartsdonut.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ChartsbarComponent } from './components/dashboard/charts/chartsbar/char
     DetailTransactionComponent,
     ChartsComponent,
     ChartsbarComponent,
+    ChartsdonutComponent,
   ],
   imports: [
     BrowserModule,

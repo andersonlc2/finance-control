@@ -1,6 +1,12 @@
+.flex-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .area-charts {
   margin: 30px 10px 30px 10px;
-  display: flex;
+  width: 480px;
   max-width: 480px;
 
   background-color: #161a2e;
@@ -8,6 +14,5 @@
 }
 
 .charts {
-  color: #000;
   width: 100%;
 }

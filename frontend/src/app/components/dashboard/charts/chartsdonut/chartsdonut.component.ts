@@ -1,51 +1,44 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartComponent } from 'ng-apexcharts';
+import { ApexTheme, ChartComponent } from 'ng-apexcharts';
 import { AnnualReportsMonth } from 'src/app/core/models/ChartsModels';
 import { ChartsService } from 'src/app/core/service/charts/shared/charts.service';
 import { dataOption } from 'src/utils/charts';
 import { monthsName } from 'src/utils/months';
+import { COLOR_PALLETE } from '../charts.component';
 
 import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle,
-  ApexFill
+  ApexNonAxisChartSeries,
+  ApexResponsive,
+  ApexChart
 } from "ng-apexcharts";
 
 export type ChartOptions = {
-  series: ApexAxisChartSeries;
+  series: ApexNonAxisChartSeries;
   chart: ApexChart;
-  xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
-  fill: ApexFill;
+  responsive: ApexResponsive[];
+  labels: any;
 };
 
 
 @Component({
-  selector: 'app-chartsbar',
-  templateUrl: './chartsbar.component.html',
-  styleUrls: ['./chartsbar.component.scss']
+  selector: 'app-chartsdonut',
+  templateUrl: './chartsdonut.component.html',
+  styleUrls: ['./chartsdonut.component.scss']
 })
-export class ChartsbarComponent implements OnInit {
+export class ChartsdonutComponent implements OnInit {
 
   @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
-
-  accountId: number;
-  expenses: number[];
-  incomes: number[];
+  public chartOptions: Partial<ChartOptions>
 
   data: AnnualReportsMonth[] = [];
 
+
   constructor(
-    private chartService: ChartsService,
-  ) {
-    this.getData();
-  }
+    private chartService: ChartsService
+  ) { }
 
   ngOnInit(): void {
-
+    this.getData();
   }
 
   fillDataOption(): dataOption[] {
@@ -73,38 +66,29 @@ export class ChartsbarComponent implements OnInit {
     this.chartService.getAnnualReports().subscribe(data => {
       this.data = data;
 
+
       this.chartOptions = {
-        series: [
-          {
-            name: "Despesas",
-            data: this.fillDataOption()
-          }
-        ],
+        series: [44, 55, 13, 43, 22],
         chart: {
-          height: 350,
-          type: "bar",
+          type: "donut",
           foreColor: '#fff'
         },
-        title: {
-          text: "",
-          style: {
-            fontSize: '14px',
-            fontWeight: 'bold',
-            color: '#ddd'
-          },
-        },
-        xaxis: {
-          labels: {
-            style: {
-              colors: '#fff'
+        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: "bottom"
+              }
             }
           }
-        },
-        fill: {
-          colors: ['#f36']
-        }
-      }
+        ]
+      };
     })
   }
-}
 
+}
