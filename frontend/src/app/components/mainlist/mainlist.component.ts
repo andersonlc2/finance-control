@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/core/models/Account';
-import { TransactionService } from 'src/app/core/service/transaction/shared/transaction.service';
 import { UserAccountService } from 'src/app/core/service/useAccount/shared/user-account.service';
 
 @Component({
@@ -18,6 +17,7 @@ export class MainlistComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     let id = this.userAccountService.getId();
     this.userAccountService.getAllTransactions(id).subscribe(account => {
       this.accounts = account;
@@ -27,7 +27,6 @@ export class MainlistComponent implements OnInit {
 
   onClick() {
     this.hiddenExtract = !this.hiddenExtract;
-
 
   }
 

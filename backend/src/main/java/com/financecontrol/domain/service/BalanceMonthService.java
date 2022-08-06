@@ -1,5 +1,8 @@
 package com.financecontrol.domain.service;
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,5 +58,25 @@ public class BalanceMonthService {
 		}
 		
 		return list;
+	}
+
+	public Double getMonthExpenses(Long accountId, Integer month) {
+		Account account = searchAccountService.search(accountId);
+		List<Transaction> transactions = transactionRespository.findByDate(account, month, OffsetDateTime.now().getYear());
+
+		return transactions.stream()
+				.filter(transaction -> transaction.getDebitOrCredit().equals("D"))
+				.map(Transaction::getValue)
+				.reduce(0.0, Double::sum);
+	}
+
+	public Double getMonthIncome(Long accountId, Integer month) {
+		Account account = searchAccountService.search(accountId);
+		List<Transaction> transactions = transactionRespository.findByDate(account, month, OffsetDateTime.now().getYear());
+
+		return transactions.stream()
+				.filter(transaction -> transaction.getDebitOrCredit().equals("C"))
+				.map(Transaction::getValue)
+				.reduce(0.0, Double::sum);
 	}
 }

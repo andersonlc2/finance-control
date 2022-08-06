@@ -1,9 +1,12 @@
 package com.financecontrol.api.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.financecontrol.api.model.response.AnnualReportResponse;
+import com.financecontrol.domain.service.ChartsTransactionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -49,6 +52,8 @@ public class TransactionController {
 	private GetToken getToken;
 	
 	private BalanceMonthService balanceMonthService;
+
+	private ChartsTransactionService chartsTransactionService;
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -138,5 +143,11 @@ public class TransactionController {
 		balances.setBalanceAfterTransaction(balanceMonthService.getBalanceTransaction(accountId, month, year));
 		
 		return balances;
+	}
+	@GetMapping("/annual-report-response")
+	public ResponseEntity<List<AnnualReportResponse>> chartsBalanceMonth(Pageable pageable, @RequestHeader Map<String, String> headers) {
+		List<AnnualReportResponse> resp = chartsTransactionService.getAnnualReport(pageable, getToken.get(headers));
+
+		return ResponseEntity.ok(resp);
 	}
 }

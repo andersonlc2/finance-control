@@ -16,6 +16,9 @@ import { TransactionComponent } from './components/transaction/transaction.compo
 import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { DetailTransactionComponent } from './components/detail-transaction/detail-transaction.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartsComponent } from './components/dashboard/charts/charts.component';
+import { ChartsbarComponent } from './components/dashboard/charts/chartsbar/chartsbar.component';
 
 @NgModule({
   declarations: [
@@ -29,12 +32,15 @@ import { DetailTransactionComponent } from './components/detail-transaction/deta
     AddTransactionComponent,
     SigninComponent,
     DetailTransactionComponent,
+    ChartsComponent,
+    ChartsbarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgApexchartsModule
   ],
   providers: [
     httpInterceptorProviders

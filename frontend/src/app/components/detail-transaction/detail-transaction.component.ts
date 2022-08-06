@@ -47,20 +47,7 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   updTransaction(): void {
-    /*
-    try {
-      this.transactionService.save(this.accountId, this.transaction).subscribe(t => {
 
-        this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
-          this.routeLink.navigate([`transaction/${this.accountId}`]);
-        });
-
-      })
-
-    } catch (error) {
-      console.error(error);
-    }
-    */
     try {
       this.transaction = this.transactionService.update(this.accountId, this.transaction);
 

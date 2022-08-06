@@ -17,3 +17,5 @@ export type MonthOfYear = {
   "name": String,
   "id": number
 };
+
+export let monthsName: String[] = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];

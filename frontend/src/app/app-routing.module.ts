@@ -9,12 +9,15 @@ import { AddTransactionComponent } from './components/add-transaction/add-transa
 import { MainlistComponent } from './components/mainlist/mainlist.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { DetailTransactionComponent } from './components/detail-transaction/detail-transaction.component';
+import { ChartsComponent } from './components/dashboard/charts/charts.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: ChartsComponent, },
       { path: 'transaction/:id', component: TransactionComponent },
       { path: 'transaction/:id/add', component: AddTransactionComponent },
       { path: 'accounts/:accountId/transaction/:transactionId', component: DetailTransactionComponent }
