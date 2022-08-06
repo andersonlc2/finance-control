@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApexTheme, ChartComponent } from 'ng-apexcharts';
-import { AnnualReportsMonth } from 'src/app/core/models/ChartsModels';
+import { ChartComponent } from 'ng-apexcharts';
+import { TotalExpenses } from 'src/app/core/models/ChartsModels';
 import { ChartsService } from 'src/app/core/service/charts/shared/charts.service';
-import { dataOption } from 'src/utils/charts';
-import { monthsName } from 'src/utils/months';
-import { COLOR_PALLETE } from '../charts.component';
+
 
 import {
   ApexNonAxisChartSeries,
@@ -19,7 +17,6 @@ export type ChartOptions = {
   labels: any;
 };
 
-
 @Component({
   selector: 'app-chartsdonut',
   templateUrl: './chartsdonut.component.html',
@@ -30,50 +27,47 @@ export class ChartsdonutComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>
 
-  data: AnnualReportsMonth[] = [];
-
+  data: TotalExpenses[] = [];
 
   constructor(
-    private chartService: ChartsService
-  ) { }
-
-  ngOnInit(): void {
+    private chartService: ChartsService,
+  ) {
     this.getData();
   }
 
-  fillDataOption(): dataOption[] {
-    let serie: dataOption[] = [];
-    this.data.forEach(month => {
+  ngOnInit(): void {
+  }
 
-      serie.push({
-        x: monthsName[month.month],
-        y: month.expenses,
-        goals: [
-          {
-            name: 'Receitas',
-            value: month.incomes,
-            strokeHeight: 5,
-            strokeColor: '#0d0'
-          }
-        ]
-      })
-    });
+  getLabels(): string[] {
+    let result: string[] = [];
+    for (let index = 0; index < 5; index++) {
+      result.push(this.data[index].type);
+    }
 
-    return serie;
+    return result;
+  }
+
+  getValues(data: TotalExpenses[]): number[] {
+    let result: number[] = [];
+    for (let index = 0; index < 5; index++) {
+      result.push(data[index].value);
+    }
+
+    return result;
   }
 
   getData(): void {
-    this.chartService.getAnnualReports().subscribe(data => {
+    this.chartService.getTotalExpenses().subscribe(data => {
       this.data = data;
 
-
       this.chartOptions = {
-        series: [44, 55, 13, 43, 22],
+        series: this.getValues(data),
         chart: {
           type: "donut",
-          foreColor: '#fff'
+          foreColor: '#fff',
+          offsetY: 50
         },
-        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+        labels: this.getLabels(),
         responsive: [
           {
             breakpoint: 480,

@@ -1,11 +1,13 @@
 package com.financecontrol.api.controller;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import com.financecontrol.api.model.response.AnnualReportResponse;
+import com.financecontrol.api.model.response.TotalExpensesResponse;
 import com.financecontrol.domain.model.Type;
 import com.financecontrol.domain.service.ChartsTransactionService;
 import org.springframework.data.domain.Page;
@@ -153,7 +155,7 @@ public class TransactionController {
 	}
 
 	@GetMapping("/total-expenses")
-	public ResponseEntity<Map<String, Double>> chartsTotalExpenses(@RequestHeader Map<String, String> headers) {
+	public ResponseEntity<Collection<TotalExpensesResponse>> chartsTotalExpenses(@RequestHeader Map<String, String> headers) {
 		var resp = chartsTransactionService.getTotalExpensesType(getToken.get(headers));
 
 		return ResponseEntity.ok(resp);

@@ -5,3 +5,10 @@ export class AnnualReportsMonth {
   month: number;
 
 }
+
+export class TotalExpenses {
+
+  type: string;
+  value: number;
+
+}

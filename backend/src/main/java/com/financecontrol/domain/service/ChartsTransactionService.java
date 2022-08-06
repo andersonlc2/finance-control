@@ -3,6 +3,7 @@ package com.financecontrol.domain.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.financecontrol.api.model.response.AnnualReportResponse;
+import com.financecontrol.api.model.response.TotalExpensesResponse;
 import com.financecontrol.config.security.JWTAuthFilter;
 import com.financecontrol.domain.model.Account;
 import com.financecontrol.domain.model.Transaction;
@@ -54,24 +55,33 @@ public class ChartsTransactionService {
         return listAnnualReportResponse;
     }
 
-    public Map<String, Double> getTotalExpensesType(String token) {
+    public Collection<TotalExpensesResponse> getTotalExpensesType(String token) {
         List<Account> accountList = accountRepository.findByUser(this.setUserLogged(token));
-        Map<String, Double> resultType = new TreeMap<>();
+        Set<TotalExpensesResponse> totalExpensesResponseList = new HashSet<>();
 
         accountList.forEach(account -> {
             List<Transaction> transactionList = transactionRepository.findTotalExpensesTypes(account);
             transactionList.forEach(transaction -> {
                 var type = transaction.getType();
-                if (resultType.containsKey(type.getName())) {
-                    var sum = resultType.get(type.getName()) + transaction.getValue();
-                    resultType.put(type.getName(), sum);
+                var totalExpenseResponse = new TotalExpensesResponse();
+                totalExpenseResponse.setType(type.getName());
+                totalExpenseResponse.setValue(transaction.getValue());
+
+                if (totalExpensesResponseList.stream().anyMatch(resp -> resp.getType().equals(totalExpenseResponse.getType())) ) {
+                    totalExpensesResponseList.stream()
+                            .filter(resp -> resp.getType().equals(totalExpenseResponse.getType()))
+                            .forEach(mat -> mat.setValue(mat.getValue() + totalExpenseResponse.getValue()));
                 } else {
-                    resultType.put(type.getName(), transaction.getValue());
+                    totalExpensesResponseList.add(totalExpenseResponse);
                 }
             });
         });
+        List<TotalExpensesResponse> ordedList = totalExpensesResponseList.stream()
+                .sorted(Comparator.comparing(TotalExpensesResponse::getValue)
+                        .reversed())
+                .collect(Collectors.toList());
 
-        return resultType;
+        return ordedList;
     }
 
     private User setUserLogged(String token) {
