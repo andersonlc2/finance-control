@@ -85,4 +85,9 @@ export class TransactionService {
     return dateUtc.toISOString().substring(0, 10);
   }
 
+  getTransactionsList(id: number): Observable<TransactionPages> {
+
+    return this.http.get<TransactionPages>(`${environment.api}/accounts/${id}`);
+  }
+
 }

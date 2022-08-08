@@ -40,8 +40,12 @@ export class ChartsdonutComponent implements OnInit {
 
   getLabels(): string[] {
     let result: string[] = [];
-    for (let index = 0; index < 5; index++) {
-      result.push(this.data[index].type);
+
+    let max = this.data.length < 5 ? this.data.length : 5;
+    if (this.data.length > 0) {
+      for (let index = 0; index < max; index++) {
+        result.push(this.data[index].type);
+      }
     }
 
     return result;
@@ -49,8 +53,13 @@ export class ChartsdonutComponent implements OnInit {
 
   getValues(data: TotalExpenses[]): number[] {
     let result: number[] = [];
-    for (let index = 0; index < 5; index++) {
-      result.push(data[index].value);
+
+    let max = data.length < 5 ? data.length : 5;
+    if (data.length > 0) {
+      for (let index = 0; index < max; index++) {
+        result.push(data[index].value);
+      }
+
     }
 
     return result;

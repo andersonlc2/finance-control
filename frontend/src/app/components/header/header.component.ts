@@ -11,6 +11,9 @@ import { UserAccountService } from 'src/app/core/service/useAccount/shared/user-
 export class HeaderComponent implements OnInit {
   name: string = 'Usuário';
   accounts: Account[] = [];
+  userId: number = this.userAccountService.getId();
+  accountId: number = 0;
+
 
   constructor(
     private accountService: AccountService,
@@ -20,11 +23,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.name = this.accountService.getUserName();
 
-    let id = this.userAccountService.getId();
-    this.userAccountService.getAllTransactions(id).subscribe(account => {
-      this.accounts = account;
+    if (this.userId) {
+      this.userAccountService.getAllTransactions(this.userId).subscribe(account => {
+        this.accounts = account;
+        this.accountId = Number(this.accounts[0].id);
 
-    });
+      });
+    }
   }
 
   onClick() {

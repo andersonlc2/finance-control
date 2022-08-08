@@ -24,6 +24,7 @@ export class UserAccountService {
   getId(): number {
     const token = this.accountService.getAuthorizationToken();
     const decoded: any = jwt_decode(token!);
+
     return decoded.id;
   }
 }
