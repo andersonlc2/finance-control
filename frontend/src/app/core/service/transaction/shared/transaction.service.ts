@@ -41,7 +41,12 @@ export class TransactionService {
 
   save(id: number, transaction: Transaction): Observable<Transaction> {
 
-    transaction.dueDate = new Date(transaction.dueDate!).toISOString();
+    try {
+      transaction.dueDate = new Date(transaction.dueDate!).toISOString();
+    } catch (err) {
+      transaction.dueDate = new Date().toISOString();
+    }
+
     transaction.debitOrCredit = this.getDebitOrCredit(transaction.debitOrCredit!);
 
     if (transaction.id) {

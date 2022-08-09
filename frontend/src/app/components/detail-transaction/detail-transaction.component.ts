@@ -28,6 +28,9 @@ export class DetailTransactionComponent implements OnInit {
   transactionId: number;
   types: Type[] = [];
 
+  error: string = "";
+
+
   constructor(
     private route: ActivatedRoute,
     private routeLink: Router,
@@ -47,17 +50,22 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   updTransaction(): void {
+    this.error = "";
 
-    try {
+    if (this.transaction.debitOrCredit == "0" || this.transaction.type?.id! <= 0 || this.transaction.value! <= 0.0) {
+      this.error = "Os campos com (*) asterisco são obrigatórios."
+    }
+
+    if (this.error === "") {
       this.transaction = this.transactionService.update(this.accountId, this.transaction);
 
       this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
         this.routeLink.navigate([`transaction/${this.accountId}`]);
       });
 
-    } catch (error) {
-      console.error(error);
+      this.error = "";
     }
+
   }
 
   findTransaction(): void {

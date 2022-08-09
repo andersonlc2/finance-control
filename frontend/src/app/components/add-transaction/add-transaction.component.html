@@ -14,7 +14,6 @@
               {{ type.name }}
             </option>
           </select>
-          <!-- <small class="msg">Campo obrigatório</small> -->
 
         </div>
 
@@ -22,7 +21,6 @@
           <label for="due-date" class="form-label"><span class="msg">*</span> Data vencimento:</label>
           <input type="date" name="due-date" id="due-date" class="form-control" [(ngModel)]="transaction.dueDate"
             required>
-          <!-- <small class="msg">Campo obrigatório</small> -->
         </div>
 
         <div style="margin-bottom: 15px;">
@@ -38,7 +36,6 @@
             <option value="1">Debito</option>
             <option value="2">Crédito</option>
           </select>
-          <!-- <small class="msg">Campo obrigatório</small> -->
         </div>
 
         <div class="right-align input-heigth">
@@ -46,12 +43,13 @@
           <span class="input-number">R$</span>
           <input type="number" min="0" step=".01" name="value" id="value" class="form-control input-btn"
             [(ngModel)]="transaction.value">
-          <!-- <small class="msg">Campo obrigatório</small> -->
         </div>
 
         <div class="input-area">
           <input type="submit" value="Enviar" class="btn success limited">
         </div>
+
+        <small *ngIf="error" class="msg">{{ error }}</small>
 
       </section>
     </form>
