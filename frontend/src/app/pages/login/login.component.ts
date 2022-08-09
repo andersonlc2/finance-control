@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
     password: ''
   }
   token: string = '';
-
+  error: string = '';
 
   constructor(
     private accountService: AccountService,
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
 
       this.router.navigate(['']);
     } catch (error) {
-      console.error(error);
+      this.error = '';
+      this.error = `Dados incorretos. Confira seu usuário e senha e tente novamente.`;
     }
 
   }

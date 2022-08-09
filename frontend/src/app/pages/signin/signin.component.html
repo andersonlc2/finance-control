@@ -4,27 +4,33 @@
     <div class="input-area">
 
       <form (ngSubmit)="onSubmit()" #form="ngForm">
-        <div>
-          <label class="form-label" for="name">Nome completo</label>
+        <div class="field-area">
+          <label class="form-label" for="name"><span class="msg">*</span> Nome completo</label>
           <input class="form-control" type="text" [(ngModel)]="user.name" name="name" id="name" placeholder="" required>
+          <small *ngIf="error.name" class="msg">{{ error.name }}</small>
         </div>
-        <div>
-          <label class="form-label" for="email">Email</label>
+        <div class="field-area">
+          <label class="form-label" for="email"><span class="msg">*</span> Email</label>
           <input class="form-control" type="email" [(ngModel)]="user.email" name="email" id="email" placeholder=""
             required>
+          <small *ngIf="error.email" class="msg">{{ error.email }}</small>
         </div>
-        <div>
-          <label class="form-label" for="pass">Senha</label>
+        <div class="field-area">
+          <label class="form-label" for="pass"><span class="msg">*</span> Senha</label>
           <input class="form-control" type="password" [(ngModel)]="user.password" name="pass" id="pass" placeholder=""
             required>
+          <small *ngIf="error.password" class="msg">{{ error.password }}</small>
         </div>
-        <div>
-          <label class="form-label" for="confirm-password">Confirme a senha</label>
+        <div class="field-area space">
+          <label class="form-label" for="confirm-password"><span class="msg">*</span> Confirme a senha</label>
           <input class="form-control" type="password" [(ngModel)]="user.confirmPassword" name="confirm-password"
             id="confirm-password" placeholder="" required>
+          <small *ngIf="error.confirmPassword" class="msg">{{ error.confirmPassword }}</small>
         </div>
 
         <input class="btn info" type="submit" value="Cadastrar">
+        <p class="mt-2">Já tem cadastro? Faça o <a routerLink="/">login</a>.</p>
+
 
       </form>
     </div>

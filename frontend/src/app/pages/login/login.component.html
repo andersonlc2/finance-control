@@ -4,8 +4,8 @@
     <form (ngSubmit)="onSubmit()" #form="ngForm">
       <div class="form-outline">
         <label class="form-label" for="email">Email</label>
-        <input class="form-control" type="email" [(ngModel)]="login.email" name="email" id="email" placeholder=""
-          required>
+        <input class="form-control" type="email" autofocus [(ngModel)]="login.email" name="email" id="email"
+          placeholder="" required>
       </div>
       <div>
         <label class="form-label" for="pass">Senha</label>
@@ -15,10 +15,17 @@
 
       <div class="text-start">
         <a href="#!">Recuperar a senha?</a>
+        <p class="mt-2">Ainda não é membro? <a routerLink="/signin">Registre-se</a></p>
       </div>
 
       <input class="btn info" type="submit" value="Login">
-      <p class="mt-4">Ainda não é membro? <a routerLink="/signin">Registre-se</a></p>
+
+      <div class="msg error" *ngIf="error">
+        <p>
+          <img src="../../../assets/svg/error.svg" alt="" width="26" height="18">
+          {{ error }}
+        </p>
+      </div>
     </form>
 
   </div>
