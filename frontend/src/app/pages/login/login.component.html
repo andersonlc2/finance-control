@@ -4,8 +4,8 @@
     <form (ngSubmit)="onSubmit()" #form="ngForm">
       <div class="form-outline">
         <label class="form-label" for="email">Email</label>
-        <input class="form-control" type="email" autofocus [(ngModel)]="login.email" name="email" id="email"
-          placeholder="" required>
+        <input class="form-control" type="email" [(ngModel)]="login.email" name="email" id="email" placeholder=""
+          required>
       </div>
       <div>
         <label class="form-label" for="pass">Senha</label>
