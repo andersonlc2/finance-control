@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "transaction")
+@Table(name = "tb_transaction")
 public class Transaction {
 
 	@EqualsAndHashCode.Include

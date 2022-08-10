@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +29,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "tb_user")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -51,10 +52,10 @@ public class User implements UserDetails {
 	private OffsetDateTime deletedAt;
 
 	@ManyToMany
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "tb_users_roles_rel", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Account> accounts;
 
 	public void deleteUser() {

@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "type")
+@Table(name = "tb_type")
 public class Type {
 
 	@EqualsAndHashCode.Include
