@@ -9,6 +9,7 @@ import { AccountService } from 'src/app/core/service/account/shared/account.serv
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  loading: boolean = false;
   login = {
     email: '',
     password: ''
@@ -25,12 +26,14 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit() {
+    this.loading = true;
     try {
       const result = await this.accountService.login(this.login);
-
+      this.loading = false;
       this.router.navigate(['']);
     } catch (error) {
       this.error = '';
+      this.loading = false;
       this.error = `Dados incorretos. Confira seu usuário e senha e tente novamente.`;
     }
 
