@@ -1,5 +1,12 @@
 <div class="login-background">
-  <div class="login-area">
+
+  <div *ngIf="loading" class="loading-area">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading" class="login-area">
 
     <div class="input-area">
 

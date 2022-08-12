@@ -11,6 +11,7 @@ import { AccountService } from 'src/app/core/service/account/shared/account.serv
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
+  loading: boolean = false;
   user: User = {
     id: 0,
     name: "",
@@ -44,32 +45,6 @@ export class SigninComponent implements OnInit {
 
   respError: objectError;
 
-  // {
-  //   "dateTime":"2022-08-08T23:31:31.416932766-03:00",
-  //   "status":400,
-  //   "title":"Um ou mais campos com valores inválidos",
-  //   "fields":
-  //   [
-  //     {
-  //       "name":"password",
-  //       "message":"A senha deve conter no mínimo 8 caracteres entre letras e números"
-  //     },
-  //     {
-  //       "name":"email",
-  //       "message":"Campo obrigatório"
-  //     },
-  //     {
-  //       "name":"email",
-  //       "message":"Email inválido"
-  //     },
-  //     {
-  //       "name":"name",
-  //       "message":"Campo obrigatório"
-  //     }
-  //   ]
-  // }
-
-
   constructor(
     private accountService: AccountService,
     private router: Router
@@ -79,6 +54,7 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     if (this.user.confirmPassword !== this.user.password) {
       this.error.confirmPassword = "As senhas não conferem";
     }
@@ -98,6 +74,7 @@ export class SigninComponent implements OnInit {
         this.makeLogin();
       },
         err => {
+          this.loading = false;
           this.respError = err.error;
 
           this.error = {
@@ -137,9 +114,10 @@ export class SigninComponent implements OnInit {
   }
 
   async makeLogin() {
-    await this.accountService.login(this.login).then(() =>
-      this.router.navigate([''])
-    );
+    await this.accountService.login(this.login).then(() => {
+      this.loading = false;
+      this.router.navigate(['']);
+    });
   }
 
 }

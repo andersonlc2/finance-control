@@ -35,3 +35,17 @@ div {
 .space {
   margin: 8px 0px;
 }
+
+.loading-area {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 340px;
+  height: 540px;
+  border-radius: 10px;
+
+  div {
+    width: 30px;
+  }
+}
