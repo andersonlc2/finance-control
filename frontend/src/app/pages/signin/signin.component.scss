@@ -37,15 +37,11 @@ div {
 }
 
 .loading-area {
+  width: 340px;
+  height: 540px;
+  border-radius: 10px;
   background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 340px;
-  height: 540px;
-  border-radius: 10px;
-
-  div {
-    width: 30px;
-  }
 }
