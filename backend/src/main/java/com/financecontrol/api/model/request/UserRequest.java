@@ -1,6 +1,6 @@
 package com.financecontrol.api.model.request;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -35,5 +35,5 @@ public class UserRequest {
 	private String password;
 
 	@Nullable
-	private OffsetDateTime createdAt;
+	private LocalDate createdAt;
 }

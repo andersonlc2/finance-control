@@ -1,6 +1,6 @@
 package com.financecontrol.api.model.response;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import com.financecontrol.domain.model.Status;
 import com.financecontrol.domain.model.Type;
@@ -15,7 +15,7 @@ public class TransactionResponse {
 	private Long id;
 	private String description;
 	private String debitOrCredit;
-	private OffsetDateTime dueDate;
+	private LocalDate dueDate;
 	private Double value;
 	private Status status;
 	private Type type;

@@ -1,6 +1,6 @@
 package com.financecontrol.api.model.request;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -23,7 +23,7 @@ public class TransactionRequest {
 	private String debitOrCredit;
 
 	@NotNull
-	private OffsetDateTime dueDate;
+	private LocalDate dueDate;
 
 	@NotNull
 	private Double value;

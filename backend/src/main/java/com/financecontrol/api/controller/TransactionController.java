@@ -6,10 +6,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.financecontrol.api.model.response.AnnualReportResponse;
-import com.financecontrol.api.model.response.TotalExpensesResponse;
-import com.financecontrol.domain.model.Type;
-import com.financecontrol.domain.service.ChartsTransactionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -28,12 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.financecontrol.api.assembler.TransactionMapper;
 import com.financecontrol.api.model.request.TransactionRequest;
+import com.financecontrol.api.model.response.AnnualReportResponse;
 import com.financecontrol.api.model.response.BalanceMonthResponse;
+import com.financecontrol.api.model.response.TotalExpensesResponse;
 import com.financecontrol.api.model.response.TransactionResponse;
 import com.financecontrol.domain.model.Transaction;
 import com.financecontrol.domain.repository.TransactionRepository;
 import com.financecontrol.domain.service.AgroupTransactionService;
 import com.financecontrol.domain.service.BalanceMonthService;
+import com.financecontrol.domain.service.ChartsTransactionService;
 import com.financecontrol.domain.service.CrudTransactionService;
 import com.financecontrol.utils.GetToken;
 
@@ -122,12 +121,13 @@ public class TransactionController {
 		var balances = new BalanceMonthResponse();
 		balances.setBalanceAfterTransaction(balanceMonthService.getBalanceTransaction(accountId, month, year));
 
-		var pageReponse = transactionMapper.toCollectionResponse(page);		
+		var pageReponse = transactionMapper.toCollectionResponse(page);
+
 		
 		for (TransactionResponse t : pageReponse) {
 			for (Map.Entry<Long, Double> balance : balances.getBalanceAfterTransaction().entrySet()) {
-				if (t.getId() == balance.getKey()) {
-					t.setAfterBalance(balance.getValue());					
+				if (t.getId().equals(balance.getKey()) ) {
+					t.setAfterBalance(balance.getValue());						
 				}
 			}
 		}

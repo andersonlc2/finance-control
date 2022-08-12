@@ -1,5 +1,15 @@
 package com.financecontrol.domain.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.financecontrol.api.model.response.AnnualReportResponse;
@@ -7,16 +17,11 @@ import com.financecontrol.api.model.response.TotalExpensesResponse;
 import com.financecontrol.config.security.JWTAuthFilter;
 import com.financecontrol.domain.model.Account;
 import com.financecontrol.domain.model.Transaction;
-import com.financecontrol.domain.model.Type;
 import com.financecontrol.domain.model.User;
 import com.financecontrol.domain.repository.AccountRepository;
 import com.financecontrol.domain.repository.TransactionRepository;
-import com.financecontrol.domain.repository.TypeRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 
 @AllArgsConstructor
@@ -31,7 +36,6 @@ public class ChartsTransactionService {
 
     private TransactionRepository transactionRepository;
 
-    private TypeRepository typeRepository;
 
     public List<AnnualReportResponse> getAnnualReport(String token) {
         List<Account> accountList = accountRepository.findByUser(this.setUserLogged(token));

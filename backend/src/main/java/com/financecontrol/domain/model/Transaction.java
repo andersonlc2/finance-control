@@ -1,6 +1,7 @@
 package com.financecontrol.domain.model;
 
-import java.time.OffsetDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,11 +34,11 @@ public class Transaction {
 
 	private String debitOrCredit;
 
-	private OffsetDateTime dueDate;
+	private LocalDate dueDate;
 
 	private Double value;
 
-	private OffsetDateTime payDay;
+	private LocalDate payDay;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;

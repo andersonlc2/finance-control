@@ -106,8 +106,8 @@ export class TransactionComponent implements OnInit {
             if (!balances.balanceMonth) {
               this.balances.balanceMonth = 0;
             }
-
             this.balances = balances;
+
           });
       } catch (err) {
         console.error(err);
