@@ -84,6 +84,10 @@ export class SigninComponent implements OnInit {
             confirmPassword: ''
           }
 
+          if (this.respError.fields === undefined) {
+            this.error.email = this.respError.title;
+          }
+
           this.respError.fields.forEach(field => {
             switch (field.name) {
               case 'name':
