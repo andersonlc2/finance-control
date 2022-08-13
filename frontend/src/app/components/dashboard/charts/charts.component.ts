@@ -40,11 +40,10 @@ export class ChartsComponent implements OnInit {
     try {
       this.transactionService.getTransactionsList(Number(this.accountId)).subscribe(transactions => {
         if (transactions.empty) {
-          this.loading = false;
-
           this.isEmpty = true;
         }
 
+        this.loading = false;
       });
     } catch (error) {
       console.error(error);

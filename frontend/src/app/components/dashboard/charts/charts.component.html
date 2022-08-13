@@ -1,8 +1,8 @@
 <div class="general-area">
   <div class="balance-area">
     <p>Saldo atual: </p>
-    <p *ngIf="balance >= 0" class="positive fonte">{{ balance }}</p>
-    <p *ngIf="balance < 0" class="negative fonte">{{ balance }}</p>
+    <p *ngIf="balance >= 0" class="positive fonte">{{ balance.toFixed(2) }}</p>
+    <p *ngIf="balance < 0" class="negative fonte">{{ balance.toFixed(2) }}</p>
   </div>
 
   <div class="divider">
@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<div *ngIf="!isEmpty" class="flex-area">
+<div *ngIf="!isEmpty && !loading" class="flex-area">
   <div class="area-charts">
     <app-chartsbar class="charts"></app-chartsbar>
   </div>
