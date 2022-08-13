@@ -56,6 +56,9 @@ export class SigninComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     if (this.user.confirmPassword !== this.user.password) {
+      this.loading = false;
+      this.clearErrors();
+
       this.error.confirmPassword = "As senhas não conferem";
     }
 
@@ -74,15 +77,10 @@ export class SigninComponent implements OnInit {
         this.makeLogin();
       },
         err => {
-          this.loading = false;
           this.respError = err.error;
-
-          this.error = {
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
-          }
+          
+          this.loading = false;
+          this.clearErrors();
 
           if (this.respError.fields === undefined) {
             this.error.email = this.respError.title;
@@ -108,6 +106,7 @@ export class SigninComponent implements OnInit {
 
     }
 
+
   }
 
   passwordValidation(): boolean {
@@ -119,9 +118,17 @@ export class SigninComponent implements OnInit {
 
   async makeLogin() {
     await this.accountService.login(this.login).then(() => {
-      this.loading = false;
       this.router.navigate(['']);
     });
+  }
+
+  clearErrors() {
+    this.error = {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    }
   }
 
 }
