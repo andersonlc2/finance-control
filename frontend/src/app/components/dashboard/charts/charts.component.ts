@@ -23,6 +23,7 @@ export class ChartsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
 
     if (this.userId) {
       this.userAccountService.getAllTransactions(this.userId).subscribe(account => {
@@ -35,8 +36,6 @@ export class ChartsComponent implements OnInit {
   }
 
   getTransactions() {
-    this.loading = true;
-
     try {
       this.transactionService.getTransactionsList(Number(this.accountId)).subscribe(transactions => {
         if (transactions.empty) {
