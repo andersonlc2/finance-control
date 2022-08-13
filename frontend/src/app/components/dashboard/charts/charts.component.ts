@@ -11,7 +11,7 @@ export const COLOR_PALLETE = ['#00D8B6', '#008FFB', '#FEB019', '#FF4560', '#775D
   styleUrls: ['./charts.component.scss']
 })
 export class ChartsComponent implements OnInit {
-
+  loading: boolean = false;
   userId: number = this.userAccountService.getId();
   accountId: number = 0;
   isEmpty: boolean = false;
@@ -35,9 +35,13 @@ export class ChartsComponent implements OnInit {
   }
 
   getTransactions() {
+    this.loading = true;
+
     try {
       this.transactionService.getTransactionsList(Number(this.accountId)).subscribe(transactions => {
         if (transactions.empty) {
+          this.loading = false;
+
           this.isEmpty = true;
         }
 

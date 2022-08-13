@@ -13,6 +13,12 @@
 
 <!-- Criar componente para informar que não existem transações -->
 
+<div *ngIf="loading" class="loading-area">
+  <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
 <div *ngIf="!isEmpty" class="flex-area">
   <div class="area-charts">
     <app-chartsbar class="charts"></app-chartsbar>
