@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Transaction, Type } from 'src/app/core/models/Transaction';
 import { TransactionService } from 'src/app/core/service/transaction/shared/transaction.service';
 
@@ -31,7 +32,8 @@ export class AddTransactionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private routeLink: Router,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private toastr: ToastrService
   ) {
     this.accountId = Number(this.route.snapshot.paramMap.get("id"));
   }
@@ -58,6 +60,7 @@ export class AddTransactionComponent implements OnInit {
           this.routeLink.navigate([`transaction/${this.accountId}`]);
         });
 
+        this.showSuccess();
       },
         err => {
 
@@ -85,5 +88,9 @@ export class AddTransactionComponent implements OnInit {
 
   cancelClick(): void {
     this.routeLink.navigate([`transaction/${this.accountId}`]);
+  }
+
+  showSuccess(): void {
+    this.toastr.success('Transação salva', '');
   }
 }

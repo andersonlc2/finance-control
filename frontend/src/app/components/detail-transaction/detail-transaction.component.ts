@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Transaction, Type } from 'src/app/core/models/Transaction';
 import { TransactionService } from 'src/app/core/service/transaction/shared/transaction.service';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-detail-transaction',
   templateUrl: './detail-transaction.component.html',
@@ -34,7 +36,8 @@ export class DetailTransactionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private routeLink: Router,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private toastr: ToastrService
   ) {
     this.accountId = Number(this.route.snapshot.paramMap.get("accountId"));
     this.transactionId = Number(this.route.snapshot.paramMap.get("transactionId"));
@@ -58,7 +61,7 @@ export class DetailTransactionComponent implements OnInit {
 
     if (this.error === "") {
       this.transaction = this.transactionService.update(this.accountId, this.transaction);
-
+      this.showSuccess();
       this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
         this.routeLink.navigate([`transaction/${this.accountId}`]);
       });
@@ -109,10 +112,20 @@ export class DetailTransactionComponent implements OnInit {
 
   deleteClick(): void {
     this.transactionService.delete(this.accountId, this.transactionId);
+    
+    this.showError();
 
     this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
       this.routeLink.navigate([`transaction/${this.accountId}`]);
     });
+  }
+
+  showSuccess() {
+    this.toastr.success('Transação salva!', '');
+  }
+
+  showError() {
+    this.toastr.error('Transação excluída', '')
   }
 
 }

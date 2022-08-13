@@ -22,6 +22,10 @@ import { ChartsbarComponent } from './components/dashboard/charts/chartsbar/char
 import { ChartsdonutComponent } from './components/dashboard/charts/chartsdonut/chartsdonut.component';
 import { ChartszoomableComponent } from './components/dashboard/charts/chartszoomable/chartszoomable.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +48,9 @@ import { ChartszoomableComponent } from './components/dashboard/charts/chartszoo
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     httpInterceptorProviders

@@ -29,6 +29,7 @@ export class TransactionComponent implements OnInit {
     private route: ActivatedRoute,
     private routeLink: Router,
     private accountService: AccountService
+
   ) {
     this.accountId = Number(this.route.snapshot.paramMap.get("id"));
   }

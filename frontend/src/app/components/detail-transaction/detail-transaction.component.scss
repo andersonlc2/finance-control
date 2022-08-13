@@ -4,17 +4,17 @@
   margin-bottom: 100px;
 
   .form-area {
+    display: flex;
+    flex-direction: column;
     background-color: #161a2e;
     border-radius: 10px;
     margin-top: 30px;
-    padding: 0px 40px 40px 40px;
+    padding: 0px;
     max-width: 420px;
   }
 }
 
 form {
-  margin-top: 40px;
-
   div {
     margin-top: 5px;
   }
@@ -41,13 +41,12 @@ form {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  position: absolute;
-  max-width: 286px;
 }
 
 .cross-svg {
+  background-color: #111525;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 5px;
 
   &:hover {
     background-color: red;
@@ -56,4 +55,9 @@ form {
 
 .input-heigth {
   height: 71px;
+}
+
+
+.form-person {
+  margin: 40px 50px 60px 50px;
 }
