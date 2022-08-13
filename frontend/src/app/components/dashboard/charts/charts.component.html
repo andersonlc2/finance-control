@@ -30,3 +30,11 @@
     <app-chartszoomable class="charts"></app-chartszoomable>
   </div>
 </div>
+
+<div *ngIf="isEmpty && !loading" class="flex-area">
+  <div class="area-info">
+    <p>Insira transações para habilitar a exibição do dashboard!</p>
+    <button class="btn info" routerLink="/transaction/{{ accountId }}">Transações</button>
+  </div>
+
+</div>
