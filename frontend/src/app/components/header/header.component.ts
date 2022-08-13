@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.name = this.accountService.getUserName();
+    this.name = this.toCapitalize( this.accountService.getUserName().split(" ")[0]);
 
     if (this.userId) {
       this.userAccountService.getAllTransactions(this.userId).subscribe(account => {
@@ -34,5 +34,9 @@ export class HeaderComponent implements OnInit {
 
   onClick() {
     this.accountService.logout();
+  }
+
+  toCapitalize(name: string) {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
 }
