@@ -6,17 +6,13 @@
 
 .area-charts {
   margin: 30px 10px 30px 10px;
-  width: 480px;
-  max-width: 480px;
+  width: 540px !important;
+  max-width: 540px !important;
+  min-width: 350px;
   height: 365px;
 
   background-color: #161a2e;
   border-radius: 4px;
-}
-
-.balances {
-  width: 560px !important;
-  max-width: 560px !important;
 }
 
 .charts {

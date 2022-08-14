@@ -74,15 +74,16 @@ export class ChartsdonutComponent implements OnInit {
         chart: {
           type: "donut",
           foreColor: '#fff',
-          offsetY: 50
+          offsetY: 20,
+          width: 470
         },
         labels: this.getLabels(),
         responsive: [
           {
-            breakpoint: 480,
+            breakpoint: 570,
             options: {
               chart: {
-                width: 300
+                width: 350
               },
               legend: {
                 position: "bottom"
