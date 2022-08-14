@@ -40,8 +40,14 @@
         <th scope="col" class="right-align">Saldo</th>
       </tr>
     </thead>
-    <tbody>
-    <tbody>
+    <tbody *ngIf="loading">
+      <div class="loading-area">
+        <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem;">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </tbody>
+    <tbody *ngIf="!loading">
       <tr *ngFor="let transaction of transactions"
         routerLink="/accounts/{{ accountId }}/transaction/{{ transaction.id }}">
         <td>{{ getDateString(transaction.dueDate!) }}</td>

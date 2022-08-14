@@ -12,7 +12,7 @@ import { MonthOfYear, months } from 'src/utils/months';
   styleUrls: ['./transaction.component.scss'],
 })
 export class TransactionComponent implements OnInit {
-
+  loading: boolean = false;
   transactions: Transaction[] = [];
   accountId: number;
 
@@ -35,6 +35,8 @@ export class TransactionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
+    
     this.listTransactions(this.params.actualMonth, this.params.actualYear);
     this.getBalances(this.params.actualMonth, this.params.actualYear);
     this.months = months;
@@ -89,6 +91,7 @@ export class TransactionComponent implements OnInit {
         this.transactionService.getAllTransactions(
           this.accountId, year, month).subscribe(transactions => {
             this.transactions = transactions.content;
+            this.loading = false;
           });
 
       } catch (err) {
