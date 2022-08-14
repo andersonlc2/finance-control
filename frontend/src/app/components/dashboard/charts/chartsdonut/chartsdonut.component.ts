@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartComponent } from 'ng-apexcharts';
+import { ApexDataLabels, ChartComponent } from 'ng-apexcharts';
 import { TotalExpenses } from 'src/app/core/models/ChartsModels';
 import { ChartsService } from 'src/app/core/service/charts/shared/charts.service';
 
@@ -15,6 +15,7 @@ export type ChartOptions = {
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
+  dataLabels: ApexDataLabels
 };
 
 @Component({
@@ -75,7 +76,8 @@ export class ChartsdonutComponent implements OnInit {
           type: "donut",
           foreColor: '#fff',
           offsetY: 20,
-          width: 470
+          width: '100%',
+          height: 330
         },
         labels: this.getLabels(),
         responsive: [
@@ -83,14 +85,17 @@ export class ChartsdonutComponent implements OnInit {
             breakpoint: 570,
             options: {
               chart: {
-                width: 350
+                width: '100%'
               },
               legend: {
                 position: "bottom"
               }
             }
           }
-        ]
+        ],
+        dataLabels: {
+          enabled: false,
+        },
       };
     })
   }
