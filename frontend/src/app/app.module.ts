@@ -25,6 +25,7 @@ import { ChartszoomableComponent } from './components/dashboard/charts/chartszoo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { ChartsbalancesComponent } from './components/dashboard/charts/chartsbalances/chartsbalances.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ToastrModule } from 'ngx-toastr';
     ChartsbarComponent,
     ChartsdonutComponent,
     ChartszoomableComponent,
+    ChartsbalancesComponent,
   ],
   imports: [
     BrowserModule,
