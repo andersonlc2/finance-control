@@ -92,3 +92,10 @@ tr:active {
     background-color: #1e3050;
   }
 }
+
+.loading-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
