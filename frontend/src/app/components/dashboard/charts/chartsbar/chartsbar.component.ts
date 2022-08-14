@@ -9,16 +9,26 @@ import {
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
-  ApexTitleSubtitle,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexYAxis,
+  ApexLegend,
+  ApexStroke,
+  ApexTooltip,
   ApexFill
 } from "ng-apexcharts";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
   xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
   fill: ApexFill;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke;
+  legend: ApexLegend;
 };
 
 
@@ -48,22 +58,31 @@ export class ChartsbarComponent implements OnInit {
 
   }
 
-  fillDataOption(): dataOption[] {
-    let serie: dataOption[] = [];
+  fillDataIncomes(): number[] {
+    let serie: number[] = [];
     this.data.forEach(month => {
 
-      serie.push({
-        x: monthsName[month.month],
-        y: month.expenses,
-        goals: [
-          {
-            name: 'Receitas',
-            value: month.incomes,
-            strokeHeight: 5,
-            strokeColor: '#0d0'
-          }
-        ]
-      })
+      serie.push(month.incomes);
+    })
+
+    return serie;
+  }
+
+  fillDataExpenses(): number[] {
+    let serie: number[] = [];
+    this.data.forEach(month => {
+
+      serie.push(month.expenses);
+    });
+
+    return serie;
+  }
+
+  fillDataMonths(): String[] {
+    let serie: String[] = [];
+    this.data.forEach(month => {
+
+      serie.push(monthsName[month.month]);
     });
 
     return serie;
@@ -77,7 +96,12 @@ export class ChartsbarComponent implements OnInit {
         series: [
           {
             name: "Despesas",
-            data: this.fillDataOption()
+            data: this.fillDataExpenses(),
+            color: '#f36'
+          },
+          {
+            name: "Receitas",
+            data: this.fillDataIncomes()
           }
         ],
         chart: {
@@ -85,23 +109,32 @@ export class ChartsbarComponent implements OnInit {
           type: "bar",
           foreColor: '#fff'
         },
-        title: {
-          text: "",
-          style: {
-            fontSize: '14px',
-            fontWeight: 'bold',
-            color: '#ddd'
-          },
-        },
-        xaxis: {
-          labels: {
-            style: {
-              colors: '#fff'
-            }
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            columnWidth: "72%"
           }
         },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"]
+        },
+        xaxis: {
+          categories: this.fillDataMonths()
+        },
         fill: {
-          colors: ['#f36']
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return "R$ " + val.toFixed(2);
+            }
+          }
         }
       }
     })

@@ -1,10 +1,15 @@
 <div *ngIf="data.length > 0" style="text-align:center">
   <apx-chart 
-    [series]="chartOptions.series!" 
-    [chart]="chartOptions.chart!" 
-    [xaxis]="chartOptions.xaxis!"
-    [title]="chartOptions.title!"
-    [fill]="chartOptions.fill!"
+  [series]="chartOptions.series!"
+  [chart]="chartOptions.chart!"
+  [dataLabels]="chartOptions.dataLabels!"
+  [plotOptions]="chartOptions.plotOptions!"
+  [yaxis]="chartOptions.yaxis!"
+  [legend]="chartOptions.legend!"
+  [fill]="chartOptions.fill!"
+  [stroke]="chartOptions.stroke!"
+  [tooltip]="chartOptions.tooltip!"
+  [xaxis]="chartOptions.xaxis!"
     >
   </apx-chart>
 </div>
