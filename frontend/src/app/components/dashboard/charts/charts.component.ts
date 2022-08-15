@@ -16,6 +16,7 @@ export class ChartsComponent implements OnInit {
   accountId: number = 0;
   isEmpty: boolean = false;
   balance: number = 0;
+  year: number = new Date().getFullYear();
 
   constructor(
     private transactionService: TransactionService,

@@ -1,15 +1,8 @@
-<!-- <div class="general-area">
-  <div class="balance-area">
-    <p>Saldo atual: </p>
-    <p *ngIf="balance >= 0" class="positive fonte">{{ balance.toFixed(2) }}</p>
-    <p *ngIf="balance < 0" class="negative fonte">{{ balance.toFixed(2) }}</p>
-  </div>
-
-
-</div> -->
-
-
-<!-- Criar componente para informar que não existem transações -->
+<div class="text-title">
+  <p>
+    Análise de movimentações refente ao ano de {{ year }}
+  </p>
+</div>
 
 <div *ngIf="loading" class="loading-area">
   <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem;">

@@ -13,6 +13,7 @@ import {
   ApexStroke,
   ApexFill
 } from "ng-apexcharts";
+import { style } from '@angular/animations';
 
 export type ChartOptions = {
   chart: ApexChart;
@@ -24,6 +25,7 @@ export type ChartOptions = {
   xaxis: ApexXAxis;
   subtitle: ApexTitleSubtitle;
   title: ApexTitleSubtitle;
+  colors: string[]
 };
 
 
@@ -49,7 +51,7 @@ export class ChartsbalancesComponent implements OnInit {
     private chartService: ChartsService
   ) {
     this.getData();
-   }
+  }
 
   ngOnInit(): void {
   }
@@ -105,6 +107,7 @@ export class ChartsbalancesComponent implements OnInit {
           opacity: 1,
           colors: this.tipo === 'inc' ? ["#0f0"] : ["#f00"]
         },
+        colors: this.tipo === 'inc' ? ["#0f0"] : ["#f00"],
         series: [
           {
             name: this.tipo === "inc" ? 'Receita' : 'Despesa',
