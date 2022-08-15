@@ -1,1 +1,17 @@
-<p>chartsbalances works!</p>
+<div *ngIf="data.length > 0" style="text-align:center">
+    <apx-chart 
+    [chart]="chartOptions.chart!"
+    [stroke]="chartOptions.stroke!"
+    [fill]="chartOptions.fill!"
+    [series]="chartOptions.series!"
+    [labels]="chartOptions.labels!"
+    [yaxis]="chartOptions.yaxis!"
+    [xaxis]="chartOptions.xaxis!"
+    [subtitle]="chartOptions.subtitle!"
+    [title]="chartOptions.title!"
+
+    style="color: #000;"
+      >
+    </apx-chart>
+  </div>
+  
