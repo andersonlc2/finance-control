@@ -1,8 +1,9 @@
-<div class="text-title">
+<div *ngIf="!isEmpty && !loading" class="text-title">
   <p>
     Análise de movimentações refente ao ano de {{ year }}
   </p>
 </div>
+
 
 <div *ngIf="loading" class="loading-area">
   <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem;">
