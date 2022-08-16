@@ -9,7 +9,8 @@ import {
   ApexXAxis,
   ApexTooltip,
   ChartComponent,
-  ApexStroke
+  ApexStroke,
+  ApexYAxis
 } from "ng-apexcharts";
 
 
@@ -20,7 +21,8 @@ export type ChartOptions = {
   fill: ApexFill;
   xaxis: ApexXAxis;
   tooltip: ApexTooltip;
-  stroke: ApexStroke
+  stroke: ApexStroke;
+  yaxis: ApexYAxis;
 };
 @Component({
   selector: 'app-chartszoomable',
@@ -84,7 +86,7 @@ export class ChartszoomableComponent implements OnInit {
           height: 350,
           foreColor: '#fff',
           zoom: {
-            type: "y",
+            type: "x",
             enabled: true,
             autoScaleYaxis: false
           },
@@ -101,7 +103,14 @@ export class ChartszoomableComponent implements OnInit {
           width: 2,
         },
         xaxis: {
-          categories: this.fillDataMonths()
+          categories: this.fillDataMonths(),
+        },
+        yaxis: {
+          labels: {
+            formatter: function (val) {
+              return Number(val).toFixed(2);
+            }
+          }
         },
         fill: {
           opacity: 1,
