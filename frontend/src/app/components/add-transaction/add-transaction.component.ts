@@ -107,9 +107,10 @@ export class AddTransactionComponent implements OnInit {
   }
 
   addDate(): void {
-    let t = JSON.parse(JSON.stringify(this.transaction));;
+    let t = JSON.parse(JSON.stringify(this.transaction));
 
     this.transactions.push(t);
+    this.transactions.sort(this.compare);
   }
 
   delDate(date: string): void {
@@ -127,5 +128,17 @@ export class AddTransactionComponent implements OnInit {
       transaction.debitOrCredit = this.transaction.debitOrCredit;
       transaction.value = this.transaction.value;
     })
+  }
+
+  compare(a: Transaction, b: Transaction) {
+    let aDate = new Date(a.dueDate!);
+    let bDate = new Date(b.dueDate!);
+
+    if (aDate < bDate)
+      return 1;
+    if (aDate > bDate)
+      return -1;
+
+    return 0;
   }
 }
