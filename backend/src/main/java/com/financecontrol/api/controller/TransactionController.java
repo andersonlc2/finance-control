@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.financecontrol.api.assembler.TransactionMapper;
 import com.financecontrol.api.model.request.TransactionRequest;
+import com.financecontrol.api.model.response.AllBalancesResponse;
 import com.financecontrol.api.model.response.AnnualReportResponse;
 import com.financecontrol.api.model.response.BalanceMonthResponse;
 import com.financecontrol.api.model.response.TotalExpensesResponse;
@@ -159,5 +160,11 @@ public class TransactionController {
 		var resp = chartsTransactionService.getTotalExpensesType(getToken.get(headers));
 
 		return ResponseEntity.ok(resp);
+	}
+	
+	@GetMapping("/all-balances")
+	public ResponseEntity<List<AllBalancesResponse>> getAllBalances(@PathVariable Long accountId) {
+		
+		return ResponseEntity.ok(balanceMonthService.getAllBalances(accountId));
 	}
 }
