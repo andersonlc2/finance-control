@@ -9,7 +9,7 @@
     <div class="form-person">
       <form (ngSubmit)="onSubmit()" #form="ngForm">
         <section>
-  
+
           <div class="input-heigth">
             <label class="form-label"><span class="msg">*</span> Transação:</label>
             <select name="select-type" class="form-select" [(ngModel)]="transaction.type!.id">
@@ -18,21 +18,32 @@
                 {{ type.name }}
               </option>
             </select>
-  
+
           </div>
-  
-          <div class="input-heigth">
+
+          <div style="margin-bottom: 18px;">
             <label for="due-date" class="form-label"><span class="msg">*</span> Data vencimento:</label>
-            <input type="date" name="due-date" id="due-date" class="form-control" [(ngModel)]="transaction.dueDate"
-              required>
+
+            <div class="input-dates">
+              <input type="date" name="due-date" id="due-date" class="form-control" [(ngModel)]="transaction.dueDate"
+                required>
+              <img src="../../../assets/svg/pluss.svg" alt="" width="28" height="20" style="margin-top: 4px;"
+                (click)="addDate()">
+            </div>
+
+            <div *ngFor="let t of transactions" class="input-dates">
+              <input type="date" name="due-dates" id="due-dates" class="form-control" value="{{t.dueDate}}" disabled>
+              <img src="../../../assets/svg/minus.svg" alt="" width="28" height="20" style="margin-top: 4px;"
+                (click)="delDate(t.dueDate!)">
+            </div>
           </div>
-  
+
           <div style="margin-bottom: 15px;">
             <label for="floatingTextarea" class="form-label">Descrição</label>
             <textarea class="form-control" placeholder="Informe a descrição da trasação" name="text-descricao" rows="5"
               cols="30" id="floatingTextarea" [(ngModel)]="transaction.description"></textarea>
           </div>
-  
+
           <div class="right-align input-heigth">
             <label for="" class="form-label"><span class="msg">*</span> Tipo transação:</label>
             <select name="select-transaction" class="form-select" [(ngModel)]="transaction.debitOrCredit">
@@ -41,20 +52,20 @@
               <option value="2">Crédito</option>
             </select>
           </div>
-  
+
           <div class="right-align input-heigth">
             <label for="value" class="form-label"><span class="msg">*</span> Valor:</label>
             <span class="input-number">R$</span>
             <input type="number" min="0" step=".01" name="value" id="value" class="form-control input-btn"
               [(ngModel)]="transaction.value">
           </div>
-  
+
           <div class="input-area">
             <input type="submit" value="Enviar" class="btn success limited">
           </div>
-  
+
           <small *ngIf="error" class="msg">{{ error }}</small>
-  
+
         </section>
       </form>
     </div>

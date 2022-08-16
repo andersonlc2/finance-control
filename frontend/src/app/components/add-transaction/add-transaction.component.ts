@@ -24,6 +24,8 @@ export class AddTransactionComponent implements OnInit {
     status: "",
     afterBalance: 0
   };
+  transactions: Transaction[] = [];
+
   accountId: number;
   types: Type[] = [];
 
@@ -53,8 +55,18 @@ export class AddTransactionComponent implements OnInit {
       this.error = "Os campos com (*) asterisco são obrigatórios."
     }
 
+    this.fillTransactionsValues();
+
     if (this.error === "") {
-      this.transactionService.save(this.accountId, this.transaction).subscribe(Transaction => {
+      this.transactions.forEach(transaction => {
+        this.transactionService.save(this.accountId, transaction).subscribe(t => {
+
+          this.showSuccess();
+        });
+      })
+
+
+      this.transactionService.save(this.accountId, this.transaction).subscribe(t => {
 
         this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
           this.routeLink.navigate([`transaction/${this.accountId}`]);
@@ -92,5 +104,28 @@ export class AddTransactionComponent implements OnInit {
 
   showSuccess(): void {
     this.toastr.success('Transação salva', '');
+  }
+
+  addDate(): void {
+    let t = JSON.parse(JSON.stringify(this.transaction));;
+
+    this.transactions.push(t);
+  }
+
+  delDate(date: string): void {
+    this.transactions.forEach(element => {
+      if (element.dueDate === date) {
+        this.transactions.splice(this.transactions.indexOf(element), 1);
+      }
+    });
+  }
+
+  fillTransactionsValues(): void {
+    this.transactions.forEach(transaction => {
+      transaction.type = this.transaction.type;
+      transaction.description = this.transaction.description;
+      transaction.debitOrCredit = this.transaction.debitOrCredit;
+      transaction.value = this.transaction.value;
+    })
   }
 }
