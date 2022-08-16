@@ -101,7 +101,7 @@ public class BalanceMonthService {
 			for (int i = year; i <= OffsetDateTime.now().getYear(); i++) {
 				for (int m = month; m <= 11; m++) {
 					var balancesResponse = new AllBalancesResponse();
-					balancesResponse.setPeriod(String.format("%d/%d", m, i));
+					balancesResponse.setPeriod(String.format("%02d/%d", m+1, i));
 					balancesResponse.setBalance(this.getBalanceMonth(account.getId(), m, i));	
 					listResp.add(balancesResponse);
 				}

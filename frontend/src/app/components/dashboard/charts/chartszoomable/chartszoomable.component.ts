@@ -1,102 +1,122 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MonthBalance } from 'src/app/core/models/Balances';
+import { ChartsService } from 'src/app/core/service/charts/shared/charts.service';
 import {
   ApexAxisChartSeries,
   ApexChart,
-  ApexTitleSubtitle,
   ApexDataLabels,
   ApexFill,
-  ApexMarkers,
-  ApexYAxis,
   ApexXAxis,
-  ApexTooltip
+  ApexTooltip,
+  ChartComponent,
+  ApexStroke
 } from "ng-apexcharts";
-import { dataSeries } from "./data-series";
 
 
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  fill: ApexFill;
+  xaxis: ApexXAxis;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke
+};
 @Component({
   selector: 'app-chartszoomable',
   templateUrl: './chartszoomable.component.html',
   styleUrls: ['./chartszoomable.component.scss']
 })
-export class ChartszoomableComponent {
-  public series: any;
-  public chart: ApexChart;
-  public dataLabels: ApexDataLabels;
-  public markers: ApexMarkers;
-  public title: ApexTitleSubtitle;
-  public fill: ApexFill;
-  public yaxis: ApexYAxis;
-  public xaxis: ApexXAxis;
-  public tooltip: ApexTooltip;
+export class ChartszoomableComponent implements OnInit {
 
-  constructor() {
+  @ViewChild("chart") chart: ChartComponent;
+  public chartOptions: Partial<ChartOptions>
+
+  balances: MonthBalance[] = [];
+
+  constructor(
+    private chartsService: ChartsService
+  ) {
     this.initChartData();
   }
 
-  public initChartData(): void {
-    let ts2 = 1484418600000;
-    let dates = [];
-    for (let i = 0; i < 120; i++) {
-      ts2 = ts2 + 86400000;
-      dates.push([ts2, dataSeries[1][i].value]);
-    }
-
-    this.series = [
-      {
-        name: "Saldo diário",
-        data: dates
-      }
-    ];
-    this.chart = {
-      type: "area",
-      stacked: false,
-      height: 350,
-      foreColor: '#fff',
-      zoom: {
-        type: "x",
-        enabled: true,
-        autoScaleYaxis: true
-      },
-      toolbar: {
-        autoSelected: "zoom"
-      }
-    };
-    this.dataLabels = {
-      enabled: false
-    };
-    this.markers = {
-      size: 0
-    };
-    this.fill = {
-      type: "gradient",
-      gradient: {
-        shadeIntensity: 1,
-        inverseColors: false,
-        opacityFrom: 0.5,
-        opacityTo: 0,
-        stops: [0, 90, 100]
-      }
-    };
-    this.yaxis = {
-      labels: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        }
-      },
-      title: {
-        text: "Saldo"
-      }
-    };
-    this.xaxis = {
-      type: "datetime"
-    };
-    this.tooltip = {
-      shared: false,
-      y: {
-        formatter: function (val) {
-          return (val / 1000000).toFixed(0);
-        }
-      }
-    };
+  ngOnInit(): void {
   }
+
+  fillDataMonths(): string[] {
+    let serie: string[] = [];
+    this.balances.forEach(month => {
+
+      if (month.period.endsWith("2022")) {
+        serie.push(month.period);
+      }
+    });
+
+    return serie;
+  }
+
+  fillDataBalances(): number[] {
+    let serie: number[] = [];
+    this.balances.forEach(month => {
+
+      if (month.period.endsWith("2022")) {
+        serie.push(month.balance);
+      }
+    });
+
+    return serie;
+  }
+
+  initChartData(): void {
+    this.chartsService.getAllBalances().subscribe(balances => {
+      this.balances = balances;
+
+      this.chartOptions = {
+        series: [
+          {
+            name: "Saldo",
+            data: this.fillDataBalances()
+          }
+        ],
+        chart: {
+          type: "area",
+          stacked: false,
+          height: 350,
+          foreColor: '#fff',
+          zoom: {
+            type: "y",
+            enabled: true,
+            autoScaleYaxis: false
+          },
+          toolbar: {
+            autoSelected: "zoom"
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: "smooth",
+          show: true,
+          width: 2,
+        },
+        xaxis: {
+          categories: this.fillDataMonths()
+        },
+        fill: {
+          opacity: 1,
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "R$ " + val.toFixed(2);
+            }
+          }
+        }
+      };
+
+    })
+
+  }
+
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MontBalance } from 'src/app/core/models/Balances';
+import { MonthBalance } from 'src/app/core/models/Balances';
 import { AnnualReportsMonth, TotalExpenses } from 'src/app/core/models/ChartsModels';
 import { environment } from 'src/environments/environment';
 
@@ -22,7 +22,7 @@ export class ChartsService {
     return this.http.get<TotalExpenses[]>(`${environment.api}/accounts/1/total-expenses`);
   }
 
-  getAllBalances(): Observable<MontBalance[]> {
-    return this.http.get<MontBalance[]>(`${environment.api}/accounts/1/all-balances`);
+  getAllBalances(): Observable<MonthBalance[]> {
+    return this.http.get<MonthBalance[]>(`${environment.api}/accounts/1/all-balances`);
   }
 }

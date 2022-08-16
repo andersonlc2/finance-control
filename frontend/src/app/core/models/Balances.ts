@@ -4,7 +4,7 @@ export class Balances {
   balanceMonth?: number;
 }
 
-export type MontBalance = {
+export type MonthBalance = {
   period: string,
   balance: number
 }

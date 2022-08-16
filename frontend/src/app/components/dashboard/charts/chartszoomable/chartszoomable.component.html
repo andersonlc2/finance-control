@@ -1,12 +1,11 @@
-<apx-chart
-  [series]="series"
-  [chart]="chart"
-  [dataLabels]="dataLabels"
-  [markers]="markers"
-  [title]="title"
-  [fill]="fill"
-  [yaxis]="yaxis"
-  [xaxis]="xaxis"
-  [tooltip]="tooltip"
-  [autoUpdateSeries]="true"
-></apx-chart>
+<div *ngIf="balances.length > 0">
+  <apx-chart
+    [series]="chartOptions.series!"
+    [fill]="chartOptions.fill!"
+    [xaxis]="chartOptions.xaxis!"
+    [tooltip]="chartOptions.tooltip!"
+    [chart]="chartOptions.chart!"
+    [dataLabels]="chartOptions.dataLabels!"
+    [stroke]="chartOptions.stroke!"
+  ></apx-chart>
+</div>
