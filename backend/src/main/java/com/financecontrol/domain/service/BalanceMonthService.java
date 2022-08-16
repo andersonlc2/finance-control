@@ -8,9 +8,14 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.financecontrol.api.model.response.AllBalancesResponse;
+import com.financecontrol.config.security.JWTAuthFilter;
 import com.financecontrol.domain.model.Account;
 import com.financecontrol.domain.model.Transaction;
+import com.financecontrol.domain.model.User;
+import com.financecontrol.domain.repository.AccountRepository;
 import com.financecontrol.domain.repository.TransactionRepository;
 
 import lombok.AllArgsConstructor;
@@ -22,6 +27,10 @@ public class BalanceMonthService {
 	private TransactionRepository transactionRespository;
 	
 	private SearchAccountService searchAccountService;
+	
+	private AccountRepository accountRepository;
+	
+	private CrudUserService crudUserService;
 	
 	public Double getBalanceMonth(Long accountId, Integer month, Integer year) {
 		Account account = searchAccountService.search(accountId);
@@ -80,21 +89,31 @@ public class BalanceMonthService {
 				.reduce(0.0, Double::sum);
 	}
 	
-	public List<AllBalancesResponse> getAllBalances(Long accountId) {
+	public List<AllBalancesResponse> getAllBalances(String token) {
 		var month = 0;
 		var year = OffsetDateTime.now().getYear() - 3;
-		
+        List<Account> accountList = accountRepository.findByUser(this.setUserLogged(token));
+
 		List<AllBalancesResponse> listResp = new ArrayList<>();
 		
-		for (int i = year; i <= OffsetDateTime.now().getYear(); i++) {
+        accountList.forEach(account -> {
+
+			for (int i = year; i <= OffsetDateTime.now().getYear(); i++) {
 				for (int m = month; m <= 11; m++) {
 					var balancesResponse = new AllBalancesResponse();
 					balancesResponse.setPeriod(String.format("%d/%d", m, i));
-					balancesResponse.setBalance(this.getBalanceMonth(accountId, m, i));	
+					balancesResponse.setBalance(this.getBalanceMonth(account.getId(), m, i));	
 					listResp.add(balancesResponse);
-			}
-		}		
-		
+				}
+			}		
+        });
+        
 		return listResp;
 	}
+	
+    private User setUserLogged(String token) {
+        String userLogged = JWT.require(Algorithm.HMAC512(JWTAuthFilter.KEY)).build().verify(token).getSubject();
+
+        return crudUserService.findByEmail(userLogged);
+    }
 }

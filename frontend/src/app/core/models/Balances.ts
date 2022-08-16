@@ -3,3 +3,9 @@ export class Balances {
   balanceAfterTransaction?: number[];
   balanceMonth?: number;
 }
+
+export type MontBalance = {
+  period: string,
+  balance: number
+}
+

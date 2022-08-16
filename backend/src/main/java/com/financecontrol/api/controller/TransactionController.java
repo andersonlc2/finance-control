@@ -163,8 +163,9 @@ public class TransactionController {
 	}
 	
 	@GetMapping("/all-balances")
-	public ResponseEntity<List<AllBalancesResponse>> getAllBalances(@PathVariable Long accountId) {
+	public ResponseEntity<List<AllBalancesResponse>> getAllBalances(@RequestHeader Map<String, String> headers) {
+		var resp = balanceMonthService.getAllBalances(getToken.get(headers));
 		
-		return ResponseEntity.ok(balanceMonthService.getAllBalances(accountId));
+		return ResponseEntity.ok(resp);
 	}
 }
