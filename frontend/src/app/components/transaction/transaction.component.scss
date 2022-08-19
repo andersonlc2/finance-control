@@ -99,3 +99,9 @@ tr:active {
   justify-content: center;
   width: 100%;
 }
+
+@media screen and (max-width: 992px) {
+  .description-area {
+    display: none;
+  }
+}

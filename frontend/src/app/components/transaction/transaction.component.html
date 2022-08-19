@@ -35,6 +35,7 @@
       <tr>
         <th scope="col">Data</th>
         <th scope="col">Tipo transação</th>
+        <th class="description-area" scope="col">Descrição</th>
         <th scope="col" class="right-align">Valor</th>
         <th scope="col" class="right-align"></th>
         <th scope="col" class="right-align">Saldo</th>
@@ -45,6 +46,7 @@
         routerLink="/accounts/{{ accountId }}/transaction/{{ transaction.id }}">
         <td>{{ getDateString(transaction.dueDate!) }}</td>
         <th>{{ transaction.type?.name }}</th>
+        <td class="description-area">{{ transaction.description }}</td>
         <th class="right-align">{{ transaction.value?.toFixed(2) }}</th>
         <th *ngIf="transaction.debitOrCredit === 'D'" class="right-align"><span class="negative">{{
             transaction.debitOrCredit }}</span></th>
