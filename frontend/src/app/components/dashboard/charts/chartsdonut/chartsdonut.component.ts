@@ -58,7 +58,7 @@ export class ChartsdonutComponent implements OnInit {
     let max = data.length < 5 ? data.length : 5;
     if (data.length > 0) {
       for (let index = 0; index < max; index++) {
-        result.push(data[index].value);
+        result.push(Number(data[index].value.toFixed(2)));
       }
 
     }

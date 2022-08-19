@@ -116,7 +116,12 @@ export class ChartsbalancesComponent implements OnInit {
         ],
         labels: this.fillDataMonths(),
         yaxis: {
-          min: 0
+          min: 0,
+          labels: {
+            formatter: function (val) {
+              return Number(val).toFixed(2);
+            }
+          }
         },
         xaxis: {
           categories: this.fillDataMonths()
