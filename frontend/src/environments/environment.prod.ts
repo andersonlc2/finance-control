@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: 'https://fc-alc.herokuapp.com'
+  api: '54.159.218.144'
 };
