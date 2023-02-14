@@ -15,6 +15,8 @@ export class TransactionComponent implements OnInit {
   loading: boolean = false;
   transactions: Transaction[] = [];
   accountId: number;
+  mes: number;
+  ano: number;
 
   months: Array<MonthOfYear> = [];
   years: Array<number> = [];
@@ -32,6 +34,10 @@ export class TransactionComponent implements OnInit {
 
   ) {
     this.accountId = Number(this.route.snapshot.paramMap.get("id"));
+    this.params = {
+      "actualMonth": Number(this.route.snapshot.paramMap.get("mes")) || new Date().getMonth(),
+      "actualYear": Number(this.route.snapshot.paramMap.get("ano")) || new Date().getFullYear()
+    }
   }
 
   ngOnInit(): void {

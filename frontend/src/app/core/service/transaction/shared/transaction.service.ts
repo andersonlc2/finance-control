@@ -76,7 +76,7 @@ export class TransactionService {
         transactionUpdated.dueDate = this.getDateString(transactionUpdated.dueDate!);
       });
 
-    return transactionUpdated;
+    return transaction;
   }
 
   delete(accountId: number, transactionId: number): void {

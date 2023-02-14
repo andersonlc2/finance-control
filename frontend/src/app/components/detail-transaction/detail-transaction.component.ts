@@ -62,10 +62,9 @@ export class DetailTransactionComponent implements OnInit {
     if (this.error === "") {
       this.transaction = this.transactionService.update(this.accountId, this.transaction);
       this.showSuccess();
-      this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
-        this.routeLink.navigate([`transaction/${this.accountId}`]);
-      });
-
+      
+      this.routeLink.navigate([`transaction/${this.accountId}/${new Date(this.transaction.dueDate!).getMonth()}/${new Date(this.transaction.dueDate!).getFullYear()}`]);
+      
       this.error = "";
     }
 
@@ -107,7 +106,7 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   cancelClick(): void {
-    this.routeLink.navigate([`transaction/${this.accountId}`]);
+    this.routeLink.navigate([`transaction/${this.accountId}/${new Date(this.transaction.dueDate!).getMonth()}/${new Date(this.transaction.dueDate!).getFullYear()}`]);
   }
 
   deleteClick(): void {
@@ -116,7 +115,7 @@ export class DetailTransactionComponent implements OnInit {
     this.showError();
 
     this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
-      this.routeLink.navigate([`transaction/${this.accountId}`]);
+      this.routeLink.navigate([`transaction/${this.accountId}/${new Date(this.transaction.dueDate!).getMonth()}/${new Date(this.transaction.dueDate!).getFullYear()}`]);
     });
   }
 

@@ -69,7 +69,7 @@ export class AddTransactionComponent implements OnInit {
       this.transactionService.save(this.accountId, this.transaction).subscribe(t => {
 
         this.routeLink.navigateByUrl('main-list', { skipLocationChange: true }).then(() => {
-          this.routeLink.navigate([`transaction/${this.accountId}`]);
+          this.routeLink.navigate([`transaction/${this.accountId}/${new Date(this.transaction.dueDate!).getMonth()}/${new Date(this.transaction.dueDate!).getFullYear()}`]);
         });
 
         this.showSuccess();
@@ -82,7 +82,7 @@ export class AddTransactionComponent implements OnInit {
 
       this.error = "";
 
-      this.routeLink.navigate([`transaction/${this.accountId}`]);
+      // this.routeLink.navigate([`transaction/${this.accountId}`]);
     }
 
   }
@@ -99,7 +99,7 @@ export class AddTransactionComponent implements OnInit {
   }
 
   cancelClick(): void {
-    this.routeLink.navigate([`transaction/${this.accountId}`]);
+    this.routeLink.navigate([`transaction/${this.accountId}/${new Date(this.transaction.dueDate!).getMonth()}/${new Date(this.transaction.dueDate!).getFullYear()}`]);
   }
 
   showSuccess(): void {

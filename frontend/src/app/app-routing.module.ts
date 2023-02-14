@@ -18,7 +18,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: ChartsComponent, },
-      { path: 'transaction/:id', component: TransactionComponent },
+      { path: 'transaction/:id/:mes/:ano', component: TransactionComponent },
       { path: 'transaction/:id/add', component: AddTransactionComponent },
       { path: 'accounts/:accountId/transaction/:transactionId', component: DetailTransactionComponent }
     ],

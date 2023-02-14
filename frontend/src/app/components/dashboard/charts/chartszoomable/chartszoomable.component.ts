@@ -49,7 +49,7 @@ export class ChartszoomableComponent implements OnInit {
     let serie: string[] = [];
     this.balances.forEach(month => {
 
-      if (month.period.endsWith("2022")) {
+      if (month.period.endsWith("2023")) {
         serie.push(month.period);
       }
     });
@@ -61,7 +61,7 @@ export class ChartszoomableComponent implements OnInit {
     let serie: number[] = [];
     this.balances.forEach(month => {
 
-      if (month.period.endsWith("2022")) {
+      if (month.period.endsWith("2023")) {
         serie.push(month.balance);
       }
     });
